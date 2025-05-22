@@ -7,7 +7,7 @@ import ThemeToggle from './components/ThemeToggle';
 
 // Set up axios with base URL
 const api = axios.create({
-  baseURL: 'http://localhost:5000', // Explicitly set the base URL
+  baseURL: import.meta.env.VITE_API_URL || '', // Use environment variable for API URL
   timeout: 5000, // 5 second timeout
 });
 

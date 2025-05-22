@@ -95,7 +95,7 @@ fi
 
 # Check if API is accessible
 echo -e "${YELLOW}Checking if API is accessible...${NC}"
-if ! curl -s http://localhost:5000/api/health > /dev/null; then
+if ! curl -s http://localhost:5001/api/health > /dev/null; then
     echo -e "${RED}API is not accessible. Backend server might have failed to start properly.${NC}"
     kill $BACKEND_PID
     # Deactivate virtual environment

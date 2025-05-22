@@ -237,20 +237,24 @@ def health_check():
     })
 
 if __name__ == '__main__':
+    # Get port from environment variable or use default
+    port = int(os.environ.get('PORT', 5001))
+    
     logger.info("Starting Flask application")
     logger.info(f"BASE_DIR: {BASE_DIR}")
     logger.info(f"PARENT_DIR: {PARENT_DIR}")
     logger.info(f"PROMPTS_DIR: {PROMPTS_DIR}")
     logger.info(f"OUTPUT_DIR: {OUTPUT_DIR}")
+    logger.info(f"Using port: {port}")
     
     try:
         # Try to run with default reloader
-        app.run(debug=True, port=5000)
+        app.run(debug=True, host='0.0.0.0', port=port)
     except ImportError as e:
         if 'watchdog' in str(e) or 'EVENT_TYPE_OPENED' in str(e):
             logger.warning("Watchdog reloader issue detected. Running without reloader.")
             # Run without watchdog reloader
-            app.run(debug=True, port=5000, use_reloader=False)
+            app.run(debug=True, host='0.0.0.0', port=port, use_reloader=False)
         else:
             # Re-raise if it's a different ImportError
             raise
