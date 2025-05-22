@@ -14,6 +14,24 @@
     <!-- AnimeJS via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
+    <!-- Architype Font -->
+    <style>
+        /* Define Architype font-face */
+        @font-face {
+            font-family: 'Architype';
+            src: url('fonts/Architype.woff2') format('woff2'),
+                 url('fonts/Architype.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        /* Strong override for font-family */
+        body, h1, h2, h3, p, div, span, button, .card-title, .card-description {
+            font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif !important;
+        }
+    </style>
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
     
@@ -33,7 +51,7 @@
         }
     </script>
 </head>
-<body class="bg-aia-light min-h-screen flex flex-col">
+<body class="bg-aia-light flex flex-col architype-enabled">
     <!-- Sticky Header -->
     <header class="sticky top-0 z-50 bg-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -50,90 +68,39 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow container mx-auto px-4 py-6">
-        <!-- Progress Bar -->
-        <div class="mb-8">
-            <div class="relative pt-1">
-                <div class="flex mb-2 items-center justify-between">
-                    <div>
-                        <span id="progress-text" class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-aia-red">
-                            Step 1 of 4
-                        </span>
-                    </div>
-                    <div class="text-right">
-                        <span id="progress-percentage" class="text-xs font-semibold inline-block text-aia-gray">
-                            25%
-                        </span>
-                    </div>
-                </div>
-                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                    <div id="progress-bar" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-aia-red w-1/4 transition-all duration-500"></div>
-                </div>
-            </div>
-        </div>
+    <main class="flex-grow container mx-auto px-4">
 
-        <!-- Steps Navigation - More Compact -->
-        <div class="mb-4">
-            <ul class="flex justify-between steps-nav">
-                <li class="step active" data-step="1">
-                    <div class="step-circle">
-                        <i class="lni lni-protection"></i>
-                    </div>
-                    <span class="step-label">Product</span>
-                </li>
-                <li class="step" data-step="2">
-                    <div class="step-circle">
-                        <i class="lni lni-user"></i>
-                    </div>
-                    <span class="step-label">Persona</span>
-                </li>
-                <li class="step" data-step="3">
-                    <div class="step-circle">
-                        <i class="lni lni-bubble"></i>
-                    </div>
-                    <span class="step-label">Options</span>
-                </li>
-                <li class="step" data-step="4">
-                    <div class="step-circle">
-                        <i class="lni lni-rocket"></i>
-                    </div>
-                    <span class="step-label">Generate</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Step Content -->
-        <div id="steps-container" class="relative overflow-visible min-h-[500px] border rounded-lg shadow-sm bg-white">
-            <!-- Step 1: Product Selection -->
-            <div id="step-1" class="step-content active p-6">
-                <h2 class="text-2xl font-bold text-aia-gray mb-3">Select a Product</h2>
-                <p class="text-gray-600 mb-6">Choose the insurance product you want to create a prompt for:</p>
-                
-                <div class="mb-6">
-                    <div id="product-card-group" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Product cards will be populated by JavaScript -->
-                        
-                        <!-- Example card structure (will be created by JavaScript) -->
-                        <div class="card-option" style="display: none;">
-                            <div class="card-image"></div>
-                            <div class="card-content">
-                                <h3 class="card-title">Product Name</h3>
-                                <p class="card-description">Product short description goes here.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex justify-end">
-                    <button id="next-1" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                        Next <i class="lni lni-arrow-right"></i>
-                    </button>
+        <!-- Step Content - No Container -->
+        <!-- Step 1: Product Selection -->
+        <div id="step-1" class="step-content active">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-aia-gray">Select Product</h2>
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step-indicator-item active">Step 1: Product</div>
+                    <div class="step-indicator-item inactive">Step 2: Persona</div>
+                    <div class="step-indicator-item inactive">Step 3: Options</div>
+                    <div class="step-indicator-item inactive">Step 4: Review</div>
                 </div>
             </div>
             
-            <!-- Step 2: Persona Selection -->
-            <div id="step-2" class="step-content p-6">
-                <h2 class="text-2xl font-bold text-aia-gray mb-3">Select a Persona</h2>
+            <div id="product-card-group">
+                <!-- Product cards will be populated by JavaScript -->
+            </div>
+        </div>
+            
+        <!-- Step 2: Persona Selection -->
+        <div id="step-2" class="step-content">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-bold text-aia-gray">Select a Persona</h2>
+                    <!-- Step Indicator -->
+                    <div class="step-indicator">
+                        <div class="step-indicator-item completed">Step 1: Product</div>
+                        <div class="step-indicator-item active">Step 2: Persona</div>
+                        <div class="step-indicator-item inactive">Step 3: Options</div>
+                        <div class="step-indicator-item inactive">Step 4: Review</div>
+                    </div>
+                </div>
                 <p class="text-gray-600 mb-6">Choose the communication style that best matches your approach:</p>
                 
                 <div class="mb-6">
@@ -158,18 +125,22 @@
                     </div>
                 </div>
                 
-                <div class="flex justify-between">
-                    <button id="prev-2" class="border border-aia-gray text-aia-gray px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <i class="lni lni-arrow-left"></i> Previous
-                    </button>
-                    <button id="next-2" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                        Next <i class="lni lni-arrow-right"></i>
-                    </button>
-                </div>
+                <!-- Navigation buttons moved to bottom navigation bar -->
             </div>
             
-            <!-- Step 3: Small Talk and Difficulty Level -->
-            <div id="step-3" class="step-content p-6">
+        <!-- Step 3: Small Talk and Difficulty Level -->
+        <div id="step-3" class="step-content">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-bold text-aia-gray">Configure Options</h2>
+                    <!-- Step Indicator -->
+                    <div class="step-indicator">
+                        <div class="step-indicator-item completed">Step 1: Product</div>
+                        <div class="step-indicator-item completed">Step 2: Persona</div>
+                        <div class="step-indicator-item active">Step 3: Options</div>
+                        <div class="step-indicator-item inactive">Step 4: Review</div>
+                    </div>
+                </div>
+                
                 <!-- Internal use banner -->
                 <div class="internal-banner mb-4">
                     <i class="lni lni-warning"></i>
@@ -213,25 +184,27 @@
                     </div>
                 </div>
                 
-                <div class="flex justify-between mt-4">
-                    <button id="prev-3" class="border border-aia-gray text-aia-gray px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <i class="lni lni-arrow-left"></i> Previous
-                    </button>
-                    <button id="next-3" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                        Next <i class="lni lni-arrow-right"></i>
-                    </button>
-                </div>
+                <!-- Navigation buttons moved to bottom navigation bar -->
             </div>
             
-            <!-- Step 4: Generate Prompt -->
-            <div id="step-4" class="step-content p-6">
+        <!-- Step 4: Generate Prompt -->
+        <div id="step-4" class="step-content">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-bold text-aia-gray">Review & Generate</h2>
+                    <!-- Step Indicator -->
+                    <div class="step-indicator">
+                        <div class="step-indicator-item completed">Step 1: Product</div>
+                        <div class="step-indicator-item completed">Step 2: Persona</div>
+                        <div class="step-indicator-item completed">Step 3: Options</div>
+                        <div class="step-indicator-item active">Step 4: Review</div>
+                    </div>
+                </div>
+                
                 <!-- Internal use banner -->
                 <div class="internal-banner mb-4">
                     <i class="lni lni-warning"></i>
                     <span>For Internal Testing Only - Debug Settings</span>
                 </div>
-                
-                <h2 class="text-2xl font-bold text-aia-gray mb-4">Review & Generate</h2>
                 <p class="text-gray-600 mb-6">Review your selections and customize the prompt structure:</p>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -305,18 +278,11 @@
                     </div>
                 </div>
                 
-                <div class="flex justify-between">
-                    <button id="prev-4" class="border border-aia-gray text-aia-gray px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <i class="lni lni-arrow-left"></i> Previous
-                    </button>
-                    <button id="generate-btn" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center">
-                        <i class="lni lni-rocket mr-2"></i> Generate Prompt
-                    </button>
-                </div>
+                <!-- Navigation buttons moved to bottom navigation bar -->
             </div>
             
-            <!-- Results Page (initially hidden) -->
-            <div id="result-page" class="step-content p-6">
+        <!-- Results Page (initially hidden) -->
+        <div id="result-page" class="step-content">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-2xl font-bold text-aia-gray">Generated Prompt</h2>
                     
@@ -352,8 +318,8 @@
                 </div>
             </div>
             
-            <!-- History Page -->
-            <div id="history-page" class="step-content p-6">
+        <!-- History Page -->
+        <div id="history-page" class="step-content">
                 <h2 class="text-2xl font-bold text-aia-gray mb-6">Saved Prompts</h2>
                 
                 <div id="no-history" class="text-center p-6 text-gray-500">
@@ -368,14 +334,45 @@
                 <div class="flex justify-end">
                     <button id="back-from-history" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
                         Back to Generator <i class="lni lni-arrow-right"></i>
-                    </button>
-                </div>
+                </button>
             </div>
         </div>
     </main>
 
+    <!-- Navigation Buttons (centered) -->
+    <div class="fixed z-40 left-0 right-0" style="bottom: 100px;">
+        <div class="max-w-screen-xl mx-auto flex justify-center space-x-4 px-4">
+            <div class="flex rounded-lg overflow-hidden shadow-sm border border-gray-200">
+                <!-- Previous buttons -->
+                <button id="prev-2" class="prev-btn bg-white text-aia-gray px-8 py-3 hover:bg-gray-100 transition-colors hidden border-r border-gray-200">
+                    <i class="lni lni-arrow-left mr-2"></i> Previous
+                </button>
+                <button id="prev-3" class="prev-btn bg-white text-aia-gray px-8 py-3 hover:bg-gray-100 transition-colors hidden border-r border-gray-200">
+                    <i class="lni lni-arrow-left mr-2"></i> Previous
+                </button>
+                <button id="prev-4" class="prev-btn bg-white text-aia-gray px-8 py-3 hover:bg-gray-100 transition-colors hidden border-r border-gray-200">
+                    <i class="lni lni-arrow-left mr-2"></i> Previous
+                </button>
+                
+                <!-- Next buttons -->
+                <button id="next-1" class="next-btn active bg-aia-red text-white px-16 py-3 hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    Next <i class="lni lni-arrow-right ml-2"></i>
+                </button>
+                <button id="next-2" class="next-btn bg-aia-red text-white px-16 py-3 hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed hidden" disabled>
+                    Next <i class="lni lni-arrow-right ml-2"></i>
+                </button>
+                <button id="next-3" class="next-btn bg-aia-red text-white px-16 py-3 hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed hidden" disabled>
+                    Next <i class="lni lni-arrow-right ml-2"></i>
+                </button>
+                <button id="generate-btn" class="next-btn bg-aia-red text-white px-16 py-3 hover:bg-red-700 transition-colors flex items-center justify-center hidden">
+                    Generate Prompt <i class="lni lni-chevron-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Sticky Footer -->
-    <footer class="sticky bottom-0 z-50 bg-aia-dark text-white py-3">
+    <footer class="fixed bottom-0 left-0 right-0 z-50 bg-aia-dark text-white py-3">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="text-sm">© 2025 AIA Thailand</div>
             <div>
@@ -387,7 +384,7 @@
     </footer>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed right-4 bottom-16 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg transform translate-y-10 opacity-0 transition-all duration-300 z-50">
+    <div id="toast" class="fixed right-4 bottom-28 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg transform translate-y-10 opacity-0 transition-all duration-300 z-60">
         <span id="toast-message">Message copied to clipboard</span>
     </div>
 
@@ -396,5 +393,22 @@
     <script src="js/ui-controller.js"></script>
     <script src="js/prompt-generator.js"></script>
     <script src="js/main.js"></script>
+    
+    <!-- Inline script for direct card selection -->
+    <script>
+        // Make card options selectable directly without waiting for JS to load
+        document.querySelectorAll('.card-option').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove selected class from all cards in the same group
+                const cardGroup = this.closest('.grid');
+                cardGroup.querySelectorAll('.card-option').forEach(c => {
+                    c.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked card
+                this.classList.add('selected');
+            });
+        });
+    </script>
 </body>
 </html>

@@ -20,31 +20,31 @@
      * Populates the product cards, persona cards, and smalltalk buttons
      */
     function populateDropdowns() {
-        // Define AIA Thailand products (from our Perplexity research)
+        // Define AIA Thailand products based on provided information
         const aiaProducts = [
             {
-                id: "aia-secure-life",
-                name: "AIA Secure Life",
-                shortDescription: "Comprehensive life insurance with protection benefits and cash value accumulation.",
-                imageUrl: "placeholder-secure-life.jpg"
+                id: "product1", // Changed to match the file names in PromptData
+                name: "Health Happy",
+                shortDescription: "Health Insurance with lump-sum benefits up to 25M THB/year, covers OPD and IPD",
+                imageUrl: "img/placeholder-health-plus.jpg"
             },
             {
-                id: "aia-health-plus",
-                name: "AIA Health Plus",
-                shortDescription: "Premium health insurance covering medical expenses, hospitalization, and critical illness.",
-                imageUrl: "placeholder-health-plus.jpg"
+                id: "product2", // Changed to match the file names in PromptData
+                name: "Personal Accident",
+                shortDescription: "Accident Insurance covering medical expenses with cashless hospital benefits",
+                imageUrl: "img/placeholder-accident.jpg"
             },
             {
-                id: "aia-retirement-plan",
-                name: "AIA Retirement Plan",
-                shortDescription: "Long-term savings plan for retirement with guaranteed income and investment options.",
-                imageUrl: "placeholder-retirement.jpg"
+                id: "product3", // Changed to match the file names in PromptData
+                name: "Infinite Care",
+                shortDescription: "Premium health insurance with worldwide coverage and comprehensive treatment",
+                imageUrl: "img/placeholder-secure-life.jpg"
             },
             {
-                id: "aia-accident-shield",
-                name: "AIA Accident Shield",
-                shortDescription: "Protection against accidents with disability coverage and medical reimbursement.",
-                imageUrl: "placeholder-accident.jpg"
+                id: "product4", // Changed to match the file names in PromptData
+                name: "CI SuperCare",
+                shortDescription: "Critical Illness Cover for early-stage and severe diseases, including major causes of death",
+                imageUrl: "img/placeholder-retirement.jpg"
             }
         ];
         
@@ -53,25 +53,22 @@
         
         aiaProducts.forEach(product => {
             const cardDiv = document.createElement('div');
-            cardDiv.className = 'card-option shadow-md';
+            cardDiv.className = 'card-option flex flex-col border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer';
             cardDiv.dataset.value = product.id;
             cardDiv.dataset.type = 'product';
             
-            // Use a placeholder color for now
-            const bgColor = ['#f87171', '#60a5fa', '#34d399', '#a78bfa'][Math.floor(Math.random() * 4)];
-            
             cardDiv.innerHTML = `
                 <input type="radio" id="product-${product.id}" name="product" class="hidden" value="${product.id}">
-                <div class="card-image" style="background-color: ${bgColor};">
-                    <div class="w-full h-full flex items-center justify-center text-white">
-                        <i class="lni lni-protection text-4xl"></i>
-                    </div>
+                <div class="card-image" style="background-image: url('${product.imageUrl}');">
                 </div>
                 <div class="card-content">
                     <h3 class="card-title">${product.name}</h3>
                     <p class="card-description">${product.shortDescription}</p>
                 </div>
             `;
+            
+            // Let the card height be determined by its content
+            // No fixed height to ensure text is fully visible
             
             productCardGroup.appendChild(cardDiv);
         });
@@ -116,7 +113,7 @@
             
             cardDiv.innerHTML = `
                 <input type="radio" id="persona-${persona}" name="persona" class="hidden" value="${persona}">
-                <div class="card-content p-4">
+                <div class="card-content">
                     <div class="flex items-center mb-2">
                         <i class="${details.icon} text-aia-red text-2xl mr-2"></i>
                         <h3 class="card-title">${formattedName}</h3>
@@ -218,8 +215,7 @@
                 // Update the product selection display
                 document.querySelector('#product-selection .font-medium').textContent = productName;
                 
-                // Enable the next button
-                UIController.elements.next1Button.disabled = false;
+                // Next button is already enabled
             });
         });
         

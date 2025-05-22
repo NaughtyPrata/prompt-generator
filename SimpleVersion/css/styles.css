@@ -15,157 +15,242 @@
 }
 
 /* Global styles */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body.architype-enabled {
+    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif;
     transition: background-color 0.3s ease;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Step navigation styles */
-.steps-nav {
-    position: relative;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-.steps-nav::before {
-    content: '';
-    position: absolute;
-    top: 25px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #e5e7eb;
-    z-index: 1;
+body.architype-enabled h1,
+body.architype-enabled h2,
+body.architype-enabled h3,
+body.architype-enabled p,
+body.architype-enabled div,
+body.architype-enabled span,
+body.architype-enabled button {
+    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif !important;
 }
 
-.step {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60px;
+/* Main container for steps */
+main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0;
+    height: calc(100vh - 130px); /* Subtract header and footer height */
+    overflow-y: auto;
+    background-color: transparent;
 }
 
-.step-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: white;
-    border: 2px solid #e5e7eb;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    margin-bottom: 8px;
-    transition: all 0.3s ease;
-}
-
-.step.active .step-circle {
-    background-color: var(--aia-red);
-    border-color: var(--aia-red);
-    color: white;
-}
-
-.step.completed .step-circle {
-    background-color: #10b981;
-    border-color: #10b981;
-    color: white;
-}
-
-.step-label {
-    font-size: 0.875rem;
-    color: var(--aia-gray);
-    transition: color 0.3s ease;
-}
-
-.step.active .step-label {
-    color: var(--aia-red);
-    font-weight: 600;
-}
+/* Step navigation styles have been removed */
 
 /* Step content transitions */
 .step-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(30px);
-    transition: all 0.5s ease;
-    overflow-y: auto;
-    max-height: 100%;
-    padding-bottom: 60px; /* Add padding at the bottom to ensure content is visible */
+    display: none;
+    transition: opacity 0.5s ease;
+    padding: 1.5rem;
+    background-color: transparent;
 }
 
 .step-content.active {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0);
+    display: block;
+    height: auto;
+    min-height: calc(100% - 160px); /* Account for the bottom buttons and footer */
+    padding-bottom: 160px; /* Add more padding at the bottom */
+    width: 100%;
+}
+
+/* Step indicator styles */
+.step-indicator {
+    display: flex;
+    gap: 8px;
+}
+
+.step-indicator-item {
+    padding: 6px 12px;
+    border-radius: 9999px; /* Pill shape */
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.step-indicator-item.active {
+    background-color: var(--aia-red);
+    color: white;
+    box-shadow: 0 2px 4px rgba(237, 27, 47, 0.3);
+}
+
+.step-indicator-item.inactive {
+    background-color: #e5e7eb; /* Gray-200 */
+    color: #6b7280; /* Gray-500 */
+}
+
+.step-indicator-item.completed {
+    background-color: #10b981; /* Green-500 */
+    color: white;
 }
 
 /* Card styles for product and persona selection */
-.card-option {
-    transition: all 0.3s ease;
-    border-radius: 0.5rem;
-    border: 2px solid transparent;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
+
 
 .card-option:hover {
-    transform: translateY(-5px);
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth transition for the selection outline */
+.card-option::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid transparent;
+    border-radius: 0.625rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, border-color 0.3s ease;
+}
+
+.card-option.selected::after {
+    opacity: 1;
 }
 
 .card-option.selected {
     border-color: var(--aia-red);
-    box-shadow: 0 0 0 2px rgba(237, 27, 47, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 0 2px rgba(237, 27, 47, 0.2);
+    position: relative; /* Add position relative for pseudo-element */
 }
 
-.card-image {
-    height: 140px;
+/* Add a pseudo-element to create a perfect rounded outline */
+.card-option.selected::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--aia-red);
+    border-radius: 0.625rem; /* Slightly larger than the card's border-radius */
+    pointer-events: none; /* Don't interfere with clicks */
+    z-index: 1; /* Above the card but below the content */
+}
+
+.card-option {
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    height: auto; /* Let height be determined by content */
+    min-height: 300px; /* Minimum height for consistency */
+    position: relative; /* Add positioning context */
+}
+
+/* Separate overflow rule for the image while keeping card corners visible */
+.card-option .card-image-container {
+    overflow: hidden;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+.card-option .card-image {
     background-color: #f0f0f0;
     background-size: cover;
     background-position: center;
     position: relative;
+    width: 100%;
+    padding-top: 75%; /* 4:3 aspect ratio */
+    flex: none; /* Prevent the image from flexing */
+    border-top-left-radius: 0.5rem; /* Match card's border radius */
+    border-top-right-radius: 0.5rem; /* Match card's border radius */
 }
 
-.card-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 100%);
-}
-
-.card-content {
-    padding: 1rem;
-    flex-grow: 1;
+.card-option .card-content {
+    padding: 1rem !important;
+    flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 100px;
+    background-color: white;
+    z-index: 2; /* Ensure text is above the outline */
+    position: relative;
+    border-bottom-left-radius: 0.5rem; /* Match card's border radius */
+    border-bottom-right-radius: 0.5rem; /* Match card's border radius */
 }
 
-.card-title {
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    color: var(--aia-gray);
+.card-option .card-title {
+    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    color: var(--aia-gray) !important;
+    word-wrap: break-word; /* Ensure long titles wrap properly */
 }
 
-.card-description {
-    font-size: 0.9rem;
-    color: #666;
+.card-option .card-description {
+    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif !important;
+    font-size: 0.875rem !important;
+    color: #666 !important;
     flex-grow: 1;
+    line-height: 1.4 !important;
+    overflow: visible; /* Allow text to be fully visible */
+    word-wrap: break-word; /* Ensure long descriptions wrap properly */
+    display: block; /* Ensure the text is displayed properly */
+    width: 100%; /* Take full width of container */
 }
 
 .card-option.selected .card-title {
     color: var(--aia-red);
+}
+
+/* Fix button positioning to match mockup */
+.next-btn.active {
+    display: inline-flex !important;
+}
+
+.prev-btn.active {
+    display: inline-flex !important;
+}
+
+/* Ensure proper border radius for cards and images */
+#product-card-group .card-option,
+#persona-card-group .card-option {
+    border-radius: 0.5rem;
+    overflow: hidden; /* Only hide overflow at the parent level */
+}
+
+/* Fix z-index stacking context */
+#product-card-group,
+#persona-card-group {
+    position: relative;
+    z-index: 1;
+}
+
+/* Fixed navigation container */
+.fixed.bottom-16.z-40 {
+    width: 100%;
+    max-width: 1280px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-right: 1rem; /* Add padding to align with container */
 }
 
 /* Button styles for small talk and level selection */
@@ -207,24 +292,75 @@ body {
     margin-right: 0.5rem;
 }
 
-/* Steps indicator - more compact */
-.steps-nav {
-    padding: 0 2rem;
+/* Steps indicator has been removed */
+
+/* Navigation bar styles */
+#navigation-bar {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.step {
-    width: auto;
-    min-width: 40px;
+.dark-theme #navigation-bar {
+    background-color: #333 !important;
+    border-color: #444;
 }
 
-.step-circle {
-    width: 40px;
-    height: 40px;
-    font-size: 0.9rem;
+.dark-theme .prev-btn {
+    border-color: #555;
+    color: #f5f5f5;
 }
 
-.step-label {
-    font-size: 0.75rem;
+.dark-theme .prev-btn:hover {
+    background-color: #444;
+}
+
+.prev-btn, .next-btn {
+    display: none;
+}
+
+.prev-btn.active, .next-btn.active {
+    display: inline-flex !important;
+    align-items: center;
+}
+
+/* Add padding to the bottom of the body to account for the navigation bar and footer */
+body {
+    padding-bottom: 0; /* Removed padding as we're handling this with fixed positioning */
+}
+
+/* Fixed container for navigation buttons */
+.fixed.z-40.left-0.right-0 {
+    bottom: 100px !important;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Product card grid */
+#product-card-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid with minimum card width */
+    gap: 1.5rem;
+    width: 100%;
+    align-items: stretch; /* Ensure all cards stretch to match the tallest */
+}
+
+@media (max-width: 1280px) {
+    #product-card-group {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on large screens */
+    }
+}
+
+@media (max-width: 1024px) {
+    #product-card-group {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    }
+}
+
+@media (max-width: 640px) {
+    #product-card-group {
+        grid-template-columns: 1fr; /* 1 column on small screens */
+    }
 }
 
 /* Dark theme adjustments */
@@ -262,6 +398,11 @@ body {
     box-shadow: 0 0 0 2px rgba(237, 27, 47, 0.4), 0 10px 15px rgba(0, 0, 0, 0.3);
 }
 
+.dark-theme .card-option.selected::after {
+    border-color: var(--aia-red);
+    box-shadow: 0 0 0 1px rgba(237, 27, 47, 0.4);
+}
+
 .dark-theme .button-option {
     background-color: #333;
     border-color: #555;
@@ -288,8 +429,7 @@ body {
     background-color: #333;
 }
 
-.dark-theme .step-content, 
-.dark-theme .step-circle,
+.dark-theme .step-content,
 .dark-theme #product-preview,
 .dark-theme #persona-preview,
 .dark-theme #smalltalk-preview,
@@ -352,17 +492,5 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
-    .step {
-        width: 40px;
-    }
-    
-    .step-circle {
-        width: 40px;
-        height: 40px;
-        font-size: 0.875rem;
-    }
-    
-    .step-label {
-        font-size: 0.75rem;
-    }
+    /* Step navigation styles have been removed */
 }

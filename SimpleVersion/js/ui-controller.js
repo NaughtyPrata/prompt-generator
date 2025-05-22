@@ -10,13 +10,10 @@ const UIController = (function() {
     
     // DOM Elements
     const elements = {
-        // Steps and navigation
-        stepsContainer: document.getElementById('steps-container'),
+        // Steps navigation
         stepContents: document.querySelectorAll('.step-content'),
-        stepNav: document.querySelectorAll('.step'),
-        progressBar: document.getElementById('progress-bar'),
-        progressText: document.getElementById('progress-text'),
-        progressPercentage: document.getElementById('progress-percentage'),
+        prevButtons: document.querySelectorAll('.prev-btn'),
+        nextButtons: document.querySelectorAll('.next-btn'),
         
         // Theme toggle
         themeToggle: document.getElementById('theme-toggle'),
@@ -81,16 +78,6 @@ const UIController = (function() {
         elements.prev3Button.addEventListener('click', () => goToStep(2));
         elements.next3Button.addEventListener('click', () => goToStep(4));
         elements.prev4Button.addEventListener('click', () => goToStep(3));
-        
-        // Step navigation via step circles
-        elements.stepNav.forEach(step => {
-            step.addEventListener('click', () => {
-                const stepNumber = parseInt(step.dataset.step);
-                if (stepNumber <= currentStep) {
-                    goToStep(stepNumber);
-                }
-            });
-        });
         
         // History button
         elements.historyButton.addEventListener('click', showHistoryPage);
@@ -169,6 +156,80 @@ const UIController = (function() {
     }
     
     /**
+     * Update the navigation buttons based on the current step
+     * @param {number} step - The current step number
+     */
+    function updateNavigationButtons(step) {
+        // Hide all navigation buttons first
+        elements.prevButtons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.classList.add('hidden');
+        });
+        elements.nextButtons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.classList.add('hidden');
+        });
+        
+        // Show the appropriate buttons based on the current step
+        if (step === 1) {
+            // Step 1 only shows Next button
+            document.getElementById('next-1').classList.add('active');
+            document.getElementById('next-1').classList.remove('hidden');
+        } else if (step === 2) {
+            // Step 2 shows both Previous and Next
+            document.getElementById('prev-2').classList.add('active');
+            document.getElementById('prev-2').classList.remove('hidden');
+            document.getElementById('next-2').classList.add('active');
+            document.getElementById('next-2').classList.remove('hidden');
+        } else if (step === 3) {
+            // Step 3 shows both Previous and Next
+            document.getElementById('prev-3').classList.add('active');
+            document.getElementById('prev-3').classList.remove('hidden');
+            document.getElementById('next-3').classList.add('active');
+            document.getElementById('next-3').classList.remove('hidden');
+        } else if (step === 4) {
+            // Step 4 shows Previous and Generate
+            document.getElementById('prev-4').classList.add('active');
+            document.getElementById('prev-4').classList.remove('hidden');
+            document.getElementById('generate-btn').classList.add('active');
+            document.getElementById('generate-btn').classList.remove('hidden');
+        }
+        
+        // Enable the Next button when a selection is made
+        if (step === 1 && document.querySelector('#product-card-group .card-option.selected') !== null) {
+            elements.next1Button.disabled = false;
+        }
+    }
+
+    /**
+     * Update the step indicators based on the current step
+     * @param {number} step - The current step number
+     */
+    function updateStepIndicators(step) {
+        // For each step, get its indicators
+        for (let i = 1; i <= 4; i++) {
+            const stepIndicators = document.querySelector(`#step-${i} .step-indicator`).querySelectorAll('.step-indicator-item');
+            
+            // Update each indicator's status
+            stepIndicators.forEach((indicator, index) => {
+                // Remove all classes first
+                indicator.classList.remove('active', 'inactive', 'completed');
+                
+                if (index + 1 < i) {
+                    // Previous steps are completed
+                    indicator.classList.add('completed');
+                } else if (index + 1 === i) {
+                    // Current step is active
+                    indicator.classList.add('active');
+                } else {
+                    // Future steps are inactive
+                    indicator.classList.add('inactive');
+                }
+            });
+        }
+    }
+
+    /**
      * Navigate to a specific step
      * @param {number} step - The step number to navigate to
      */
@@ -184,29 +245,16 @@ const UIController = (function() {
         // Show the selected step
         document.getElementById(`step-${step}`).classList.add('active');
         
-        // Update the step navigation
-        elements.stepNav.forEach(nav => {
-            const navStep = parseInt(nav.dataset.step);
-            nav.classList.remove('active', 'completed');
-            
-            if (navStep === step) {
-                nav.classList.add('active');
-            } else if (navStep < step) {
-                nav.classList.add('completed');
-            }
-        });
+        // Update navigation buttons
+        updateNavigationButtons(step);
         
-        // Update progress bar
-        const progressPercentage = (step / 4) * 100;
-        elements.progressBar.style.width = `${progressPercentage}%`;
-        elements.progressText.textContent = `Step ${step} of 4`;
-        elements.progressPercentage.textContent = `${progressPercentage}%`;
+        // Update step indicators
+        updateStepIndicators(step);
         
         // Animate the transition
         anime({
-            targets: '#steps-container',
-            translateY: [10, 0],
-            opacity: [0.8, 1],
+            targets: `#step-${step}`,
+            opacity: [0, 1],
             easing: 'easeOutQuad',
             duration: 300
         });
@@ -231,15 +279,18 @@ const UIController = (function() {
         // Show the result page
         elements.resultPage.classList.add('active');
         
-        // Hide progress and steps navigation
-        document.querySelector('.steps-nav').style.display = 'none';
-        document.querySelector('.relative.pt-1').style.display = 'none';
+        // Hide navigation buttons when showing result page
+        elements.prevButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+        elements.nextButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
         
         // Animate the transition
         anime({
             targets: '#result-page',
-            translateY: [10, 0],
-            opacity: [0.8, 1],
+            opacity: [0, 1],
             easing: 'easeOutQuad',
             duration: 300
         });
@@ -255,15 +306,22 @@ const UIController = (function() {
         // Show the last step
         document.getElementById(`step-${currentStep}`).classList.add('active');
         
-        // Show progress and steps navigation
-        document.querySelector('.steps-nav').style.display = 'flex';
-        document.querySelector('.relative.pt-1').style.display = 'block';
+        // Update navigation buttons
+        updateNavigationButtons(currentStep);
     }
     
     /**
      * Show the history page with saved prompts
      */
     function showHistoryPage() {
+        // Hide navigation buttons when showing history page
+        elements.prevButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+        elements.nextButtons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
         // Get saved prompts from localStorage
         const savedPrompts = JSON.parse(localStorage.getItem('savedPrompts') || '[]');
         
@@ -315,15 +373,10 @@ const UIController = (function() {
         // Show the history page
         elements.historyPage.classList.add('active');
         
-        // Hide progress and steps navigation
-        document.querySelector('.steps-nav').style.display = 'none';
-        document.querySelector('.relative.pt-1').style.display = 'none';
-        
         // Animate the transition
         anime({
             targets: '#history-page',
-            translateY: [10, 0],
-            opacity: [0.8, 1],
+            opacity: [0, 1],
             easing: 'easeOutQuad',
             duration: 300
         });
@@ -342,13 +395,16 @@ const UIController = (function() {
         if (previousStepId === 'result-page') {
             // Return to the result page
             elements.resultPage.classList.add('active');
-            // Keep progress and steps navigation hidden
+            // Keep navigation buttons hidden
         } else {
             // Return to a wizard step
             document.getElementById(previousStepId).classList.add('active');
-            // Show progress and steps navigation
-            document.querySelector('.steps-nav').style.display = 'flex';
-            document.querySelector('.relative.pt-1').style.display = 'block';
+            
+            // If returning to a step, update the navigation buttons
+            if (previousStepId.startsWith('step-')) {
+                const stepNum = parseInt(previousStepId.replace('step-', ''));
+                updateNavigationButtons(stepNum);
+            }
         }
     }
     
@@ -411,10 +467,6 @@ const UIController = (function() {
         elements.next2Button.disabled = true;
         elements.next3Button.disabled = true;
         
-        // Show progress and steps navigation
-        document.querySelector('.steps-nav').style.display = 'flex';
-        document.querySelector('.relative.pt-1').style.display = 'block';
-        
         // Go to step 1
         goToStep(1);
     }
@@ -428,6 +480,8 @@ const UIController = (function() {
         if (isDarkTheme) {
             document.body.classList.add('dark-theme');
             elements.themeIcon.className = 'lni lni-moon text-white';
+            
+            // No longer need to update navigation bar
             
             // Update component order items for dark theme
             elements.componentOrder.querySelectorAll('li').forEach(item => {
@@ -455,6 +509,8 @@ const UIController = (function() {
         } else {
             document.body.classList.remove('dark-theme');
             elements.themeIcon.className = 'lni lni-sun text-aia-gray';
+            
+            // No longer need to update navigation bar
             
             // Update component order items for light theme
             elements.componentOrder.querySelectorAll('li').forEach(item => {
@@ -515,6 +571,12 @@ const UIController = (function() {
         
         // Start at step 1
         goToStep(1);
+        
+        // Set up initial navigation buttons
+        updateNavigationButtons(1);
+        
+        // Set up initial step indicators
+        updateStepIndicators(1);
     }
     
     // Public API
