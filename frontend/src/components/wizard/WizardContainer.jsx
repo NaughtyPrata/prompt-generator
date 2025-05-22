@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import { ProgressBar } from 'primereact/progressbar';
 import { Steps } from 'primereact/steps';
 import { Toast } from 'primereact/toast';
@@ -171,7 +170,7 @@ const WizardContainer = ({
       )}
 
       <div className="step-content">
-        <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
+        {renderStep()}
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
-import { motion } from 'framer-motion';
 
 const ThemeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -48,7 +47,7 @@ const ThemeToggle = () => {
   };
 
   return (
-    <motion.div>
+    <div>
       <Button
         icon={isDarkMode ? 'pi pi-sun' : 'pi pi-moon'}
         onClick={toggleTheme}
@@ -62,7 +61,7 @@ const ThemeToggle = () => {
         tooltip={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         tooltipOptions={{ position: 'left' }}
       />
-    </motion.div>
+    </div>
   );
 };
 

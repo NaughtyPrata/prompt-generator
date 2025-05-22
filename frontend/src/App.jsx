@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import Header from './components/Header';
 import WizardContainer from './components/wizard/WizardContainer';
 import ThemeToggle from './components/ThemeToggle';
@@ -186,8 +185,7 @@ function App() {
   if (initialLoading) {
     return (
       <div className="flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-        <ProgressSpinner style={{ width: '50px', height: '50px' }} />
-        <div className="ml-3">Loading application...</div>
+        <div>Loading application...</div>
       </div>
     );
   }

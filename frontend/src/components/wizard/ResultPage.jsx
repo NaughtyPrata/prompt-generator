@@ -1,20 +1,12 @@
 import React from 'react';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { motion } from 'framer-motion';
 import Editor from '@monaco-editor/react';
 
 const ResultPage = ({ generatedPrompt, onReset, outputFiles, onViewOutput }) => {
   console.log('🚀 ~ generatedPrompt:', generatedPrompt);
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.5 }}
-      className="step-card"
-      style={{ height: '100%' }}
-    >
+    <div className="step-card" style={{ height: '100%' }}>
       <Card
         style={{ borderRadius: '10px', height: '100%' }}
         header={
@@ -74,7 +66,7 @@ const ResultPage = ({ generatedPrompt, onReset, outputFiles, onViewOutput }) => 
           </div>
         </div>
       </Card>
-    </motion.div>
+    </div>
   );
 };
 

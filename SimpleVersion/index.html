@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIA Sales Genie - Prompt Generator</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- LineIcons via CDN -->
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
+    
+    <!-- AnimeJS via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aia-red': '#ed1b2f',
+                        'aia-gray': '#58595b',
+                        'aia-light': '#f5f5f5',
+                        'aia-dark': '#2d2d2d'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-aia-light min-h-screen flex flex-col">
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="img/aia-logo.jpg" alt="AIA Logo" class="h-10">
+                <h1 class="ml-4 text-xl font-bold text-aia-gray">Sales Genie</h1>
+            </div>
+            <div>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200">
+                    <i class="lni lni-sun text-aia-gray"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="relative pt-1">
+                <div class="flex mb-2 items-center justify-between">
+                    <div>
+                        <span id="progress-text" class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-aia-red">
+                            Step 1 of 4
+                        </span>
+                    </div>
+                    <div class="text-right">
+                        <span id="progress-percentage" class="text-xs font-semibold inline-block text-aia-gray">
+                            25%
+                        </span>
+                    </div>
+                </div>
+                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                    <div id="progress-bar" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-aia-red w-1/4 transition-all duration-500"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Steps Navigation - More Compact -->
+        <div class="mb-4">
+            <ul class="flex justify-between steps-nav">
+                <li class="step active" data-step="1">
+                    <div class="step-circle">
+                        <i class="lni lni-protection"></i>
+                    </div>
+                    <span class="step-label">Product</span>
+                </li>
+                <li class="step" data-step="2">
+                    <div class="step-circle">
+                        <i class="lni lni-user"></i>
+                    </div>
+                    <span class="step-label">Persona</span>
+                </li>
+                <li class="step" data-step="3">
+                    <div class="step-circle">
+                        <i class="lni lni-bubble"></i>
+                    </div>
+                    <span class="step-label">Options</span>
+                </li>
+                <li class="step" data-step="4">
+                    <div class="step-circle">
+                        <i class="lni lni-rocket"></i>
+                    </div>
+                    <span class="step-label">Generate</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Step Content -->
+        <div id="steps-container" class="relative overflow-visible min-h-[500px] border rounded-lg shadow-sm bg-white">
+            <!-- Step 1: Product Selection -->
+            <div id="step-1" class="step-content active p-6">
+                <h2 class="text-2xl font-bold text-aia-gray mb-3">Select a Product</h2>
+                <p class="text-gray-600 mb-6">Choose the insurance product you want to create a prompt for:</p>
+                
+                <div class="mb-6">
+                    <div id="product-card-group" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Product cards will be populated by JavaScript -->
+                        
+                        <!-- Example card structure (will be created by JavaScript) -->
+                        <div class="card-option" style="display: none;">
+                            <div class="card-image"></div>
+                            <div class="card-content">
+                                <h3 class="card-title">Product Name</h3>
+                                <p class="card-description">Product short description goes here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button id="next-1" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Next <i class="lni lni-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Persona Selection -->
+            <div id="step-2" class="step-content p-6">
+                <h2 class="text-2xl font-bold text-aia-gray mb-3">Select a Persona</h2>
+                <p class="text-gray-600 mb-6">Choose the communication style that best matches your approach:</p>
+                
+                <div class="mb-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Left column with image on larger screens -->
+                        <div class="lg:col-span-1 order-2 lg:order-1">
+                            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md h-full min-h-[250px] flex items-center justify-center">
+                                <div id="persona-image" class="w-full h-full bg-cover bg-center" style="background-image: url('img/placeholder-persona.jpg');">
+                                    <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                        <i class="lni lni-user text-6xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right column with persona cards -->
+                        <div class="lg:col-span-2 order-1 lg:order-2">
+                            <div id="persona-card-group" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- Persona cards will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between">
+                    <button id="prev-2" class="border border-aia-gray text-aia-gray px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="lni lni-arrow-left"></i> Previous
+                    </button>
+                    <button id="next-2" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Next <i class="lni lni-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Small Talk and Difficulty Level -->
+            <div id="step-3" class="step-content p-6">
+                <!-- Internal use banner -->
+                <div class="internal-banner mb-4">
+                    <i class="lni lni-warning"></i>
+                    <span>For Internal Testing Only - Debug Settings</span>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Small Talk Selection -->
+                    <div>
+                        <h2 class="text-xl font-bold text-aia-gray mb-3">Select Small Talk</h2>
+                        <p class="text-gray-600 mb-4">Choose a small talk element to include:</p>
+                        
+                        <div class="mb-6">
+                            <div id="smalltalk-button-group" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <!-- Small talk buttons will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Difficulty Level Selection -->
+                    <div>
+                        <h2 class="text-xl font-bold text-aia-gray mb-3">Select Difficulty Level</h2>
+                        <p class="text-gray-600 mb-4">Choose the level of customer objections:</p>
+                        
+                        <div class="mb-6">
+                            <div id="level-button-group" class="grid grid-cols-1 gap-3">
+                                <div class="button-option" data-value="level1">
+                                    <div class="font-medium">Level 1: Moderate</div>
+                                    <div class="text-sm mt-1">1-2 objections from customer</div>
+                                </div>
+                                <div class="button-option" data-value="level2">
+                                    <div class="font-medium">Level 2: Challenging</div>
+                                    <div class="text-sm mt-1">2-3 objections from customer</div>
+                                </div>
+                                <div class="button-option" data-value="level3">
+                                    <div class="font-medium">Level 3: Difficult</div>
+                                    <div class="text-sm mt-1">4+ objections from customer</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-4">
+                    <button id="prev-3" class="border border-aia-gray text-aia-gray px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="lni lni-arrow-left"></i> Previous
+                    </button>
+                    <button id="next-3" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Next <i class="lni lni-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 4: Generate Prompt -->
+            <div id="step-4" class="step-content p-6">
+                <!-- Internal use banner -->
+                <div class="internal-banner mb-4">
+                    <i class="lni lni-warning"></i>
+                    <span>For Internal Testing Only - Debug Settings</span>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-aia-gray mb-4">Review & Generate</h2>
+                <p class="text-gray-600 mb-6">Review your selections and customize the prompt structure:</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h3 class="font-bold mb-3 text-aia-gray">Your Selections:</h3>
+                        <div class="bg-gray-50 rounded-lg border p-4 shadow-sm">
+                            <ul class="space-y-3">
+                                <li id="product-selection" class="flex items-center">
+                                    <div class="w-8 h-8 bg-aia-red rounded-full flex items-center justify-center text-white mr-3">
+                                        <i class="lni lni-protection"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-500">Product</div>
+                                        <div class="font-medium">None selected</div>
+                                    </div>
+                                </li>
+                                <li id="persona-selection" class="flex items-center">
+                                    <div class="w-8 h-8 bg-aia-red rounded-full flex items-center justify-center text-white mr-3">
+                                        <i class="lni lni-user"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-500">Persona</div>
+                                        <div class="font-medium">None selected</div>
+                                    </div>
+                                </li>
+                                <li id="smalltalk-selection" class="flex items-center">
+                                    <div class="w-8 h-8 bg-aia-red rounded-full flex items-center justify-center text-white mr-3">
+                                        <i class="lni lni-bubble"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-500">Small Talk</div>
+                                        <div class="font-medium">None selected</div>
+                                    </div>
+                                </li>
+                                <li id="level-selection" class="flex items-center">
+                                    <div class="w-8 h-8 bg-aia-red rounded-full flex items-center justify-center text-white mr-3">
+                                        <i class="lni lni-bar-chart"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-500">Difficulty Level</div>
+                                        <div class="font-medium">None selected</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-bold mb-3 text-aia-gray">Customize Order:</h3>
+                        <p class="text-sm text-gray-600 mb-2">Drag to reorder components:</p>
+                        <div class="bg-gray-50 rounded-lg border p-4 shadow-sm">
+                            <ul id="component-order" class="space-y-2">
+                                <li class="p-3 bg-white border rounded-lg cursor-move flex items-center shadow-sm" data-id="product">
+                                    <i class="lni lni-menu mr-2 text-gray-500"></i>
+                                    <span>1. Product Information</span>
+                                </li>
+                                <li class="p-3 bg-white border rounded-lg cursor-move flex items-center shadow-sm" data-id="persona">
+                                    <i class="lni lni-menu mr-2 text-gray-500"></i>
+                                    <span>2. Persona</span>
+                                </li>
+                                <li class="p-3 bg-white border rounded-lg cursor-move flex items-center shadow-sm" data-id="smalltalk">
+                                    <i class="lni lni-menu mr-2 text-gray-500"></i>
+                                    <span>3. Small Talk</span>
+                                </li>
+                                <li class="p-3 bg-white border rounded-lg cursor-move flex items-center shadow-sm" data-id="level">
+                                    <i class="lni lni-menu mr-2 text-gray-500"></i>
+                                    <span>4. Difficulty Level</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between">
+                    <button id="prev-4" class="border border-aia-gray text-aia-gray px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="lni lni-arrow-left"></i> Previous
+                    </button>
+                    <button id="generate-btn" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center">
+                        <i class="lni lni-rocket mr-2"></i> Generate Prompt
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Results Page (initially hidden) -->
+            <div id="result-page" class="step-content p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-aia-gray">Generated Prompt</h2>
+                    
+                    <div class="flex">
+                        <button id="copy-btn" class="flex items-center border border-aia-gray text-aia-gray px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors mr-2">
+                            <i class="lni lni-clipboard mr-1"></i> Copy
+                        </button>
+                        <button id="save-btn" class="flex items-center border border-aia-gray text-aia-gray px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                            <i class="lni lni-save mr-1"></i> Save
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-aia-red text-white px-4 py-2 flex items-center">
+                            <i class="lni lni-text-format mr-2"></i>
+                            <span>AIA Sales Prompt</span>
+                        </div>
+                        <div id="prompt-result" class="p-6 border border-gray-200 min-h-[300px] whitespace-pre-wrap text-gray-700 bg-gray-50">
+                            <!-- Generated prompt will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between">
+                    <button id="back-to-edit" class="flex items-center border border-aia-gray text-aia-gray px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="lni lni-pencil mr-1"></i> Edit
+                    </button>
+                    <button id="start-over" class="flex items-center bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="lni lni-reload mr-1"></i> Start Over
+                    </button>
+                </div>
+            </div>
+            
+            <!-- History Page -->
+            <div id="history-page" class="step-content p-6">
+                <h2 class="text-2xl font-bold text-aia-gray mb-6">Saved Prompts</h2>
+                
+                <div id="no-history" class="text-center p-6 text-gray-500">
+                    <i class="lni lni-empty-file text-4xl mb-2"></i>
+                    <p>No saved prompts yet</p>
+                </div>
+                
+                <ul id="history-list" class="mb-6 space-y-2">
+                    <!-- History items will be populated by JavaScript -->
+                </ul>
+                
+                <div class="flex justify-end">
+                    <button id="back-from-history" class="bg-aia-red text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        Back to Generator <i class="lni lni-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Sticky Footer -->
+    <footer class="sticky bottom-0 z-50 bg-aia-dark text-white py-3">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="text-sm">© 2025 AIA Thailand</div>
+            <div>
+                <button id="history-btn" class="text-white px-3 py-1 rounded-full hover:bg-aia-gray transition-colors">
+                    <i class="lni lni-history"></i> History
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed right-4 bottom-16 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg transform translate-y-10 opacity-0 transition-all duration-300 z-50">
+        <span id="toast-message">Message copied to clipboard</span>
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="js/prompt-data.js"></script>
+    <script src="js/ui-controller.js"></script>
+    <script src="js/prompt-generator.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

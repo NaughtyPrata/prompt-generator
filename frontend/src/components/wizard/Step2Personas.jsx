@@ -2,18 +2,10 @@ import React from 'react';
 import { Card } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
-import { motion } from 'framer-motion';
 
 const Step2Personas = ({ personas, selectedPersona, setSelectedPersona, onNext, onPrevious }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100 }}
-      transition={{ duration: 0.5 }}
-      className="step-card"
-      style={{ height: '100%' }}
-    >
+    <div className="step-card" style={{ height: '100%' }}>
       <Card
         style={{ borderRadius: '10px', height: '100%' }}
         header={
@@ -65,7 +57,7 @@ const Step2Personas = ({ personas, selectedPersona, setSelectedPersona, onNext, 
           </div>
         </div>
       </Card>
-    </motion.div>
+    </div>
   );
 };
 

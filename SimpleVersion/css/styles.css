@@ -1,0 +1,368 @@
+/* AIA Sales Genie Styles */
+
+/* Variables for AIA colors */
+:root {
+    --aia-red: #ed1b2f;
+    --aia-gray: #58595b;
+    --aia-light: #f5f5f5;
+    --aia-dark: #2d2d2d;
+}
+
+/* Dark theme colors */
+.dark-theme {
+    --aia-light: #2d2d2d;
+    --aia-dark: #f5f5f5;
+}
+
+/* Global styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+/* Step navigation styles */
+.steps-nav {
+    position: relative;
+}
+
+.steps-nav::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #e5e7eb;
+    z-index: 1;
+}
+
+.step {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+}
+
+.step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #e5e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-circle {
+    background-color: var(--aia-red);
+    border-color: var(--aia-red);
+    color: white;
+}
+
+.step.completed .step-circle {
+    background-color: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+.step-label {
+    font-size: 0.875rem;
+    color: var(--aia-gray);
+    transition: color 0.3s ease;
+}
+
+.step.active .step-label {
+    color: var(--aia-red);
+    font-weight: 600;
+}
+
+/* Step content transitions */
+.step-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(30px);
+    transition: all 0.5s ease;
+    overflow-y: auto;
+    max-height: 100%;
+    padding-bottom: 60px; /* Add padding at the bottom to ensure content is visible */
+}
+
+.step-content.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* Card styles for product and persona selection */
+.card-option {
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-option.selected {
+    border-color: var(--aia-red);
+    box-shadow: 0 0 0 2px rgba(237, 27, 47, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+    height: 140px;
+    background-color: #f0f0f0;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.card-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 100%);
+}
+
+.card-content {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--aia-gray);
+}
+
+.card-description {
+    font-size: 0.9rem;
+    color: #666;
+    flex-grow: 1;
+}
+
+.card-option.selected .card-title {
+    color: var(--aia-red);
+}
+
+/* Button styles for small talk and level selection */
+.button-option {
+    transition: all 0.2s ease;
+    border-radius: 0.5rem;
+    border: 2px solid #e5e7eb;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: white;
+    text-align: center;
+}
+
+.button-option:hover {
+    border-color: var(--aia-red);
+    background-color: rgba(237, 27, 47, 0.05);
+}
+
+.button-option.selected {
+    background-color: var(--aia-red);
+    border-color: var(--aia-red);
+    color: white;
+}
+
+/* Internal use banner */
+.internal-banner {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #f5c6cb;
+    display: flex;
+    align-items: center;
+}
+
+.internal-banner i {
+    margin-right: 0.5rem;
+}
+
+/* Steps indicator - more compact */
+.steps-nav {
+    padding: 0 2rem;
+}
+
+.step {
+    width: auto;
+    min-width: 40px;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+}
+
+.step-label {
+    font-size: 0.75rem;
+}
+
+/* Dark theme adjustments */
+.dark-theme {
+    background-color: var(--aia-dark);
+    color: var(--aia-light);
+}
+
+.dark-theme .card-option {
+    background-color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .card-image {
+    background-color: #444;
+}
+
+.dark-theme .card-content {
+    background-color: #333;
+}
+
+.dark-theme .card-title {
+    color: #f5f5f5;
+}
+
+.dark-theme .card-description {
+    color: #aaa;
+}
+
+.dark-theme .card-option:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .card-option.selected {
+    box-shadow: 0 0 0 2px rgba(237, 27, 47, 0.4), 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .button-option {
+    background-color: #333;
+    border-color: #555;
+    color: #f5f5f5;
+}
+
+.dark-theme .button-option:hover {
+    background-color: #444;
+    border-color: var(--aia-red);
+}
+
+.dark-theme .button-option.selected {
+    background-color: var(--aia-red);
+    color: white;
+}
+
+.dark-theme .internal-banner {
+    background-color: rgba(248, 215, 218, 0.1);
+    color: #f5c6cb;
+    border-left-color: #721c24;
+}
+
+.dark-theme header {
+    background-color: #333;
+}
+
+.dark-theme .step-content, 
+.dark-theme .step-circle,
+.dark-theme #product-preview,
+.dark-theme #persona-preview,
+.dark-theme #smalltalk-preview,
+.dark-theme #prompt-result {
+    background-color: #333 !important;
+    color: #f5f5f5;
+}
+
+.dark-theme select,
+.dark-theme input {
+    background-color: #444;
+    color: #f5f5f5;
+    border-color: #555;
+}
+
+.dark-theme .border {
+    border-color: #555;
+}
+
+/* Draggable items */
+.dragging {
+    opacity: 0.8;
+    background-color: #f0f0f0;
+}
+
+.dark-theme .dragging {
+    background-color: #444;
+}
+
+/* Toast animation */
+@keyframes slideIn {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+}
+
+.toast-visible {
+    animation: slideIn 0.3s forwards;
+}
+
+.toast-hidden {
+    animation: slideOut 0.3s forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .step {
+        width: 40px;
+    }
+    
+    .step-circle {
+        width: 40px;
+        height: 40px;
+        font-size: 0.875rem;
+    }
+    
+    .step-label {
+        font-size: 0.75rem;
+    }
+}

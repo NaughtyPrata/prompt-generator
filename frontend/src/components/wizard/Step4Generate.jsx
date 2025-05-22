@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { motion, Reorder, useMotionValue, useDragControls } from 'framer-motion';
 import './ReorderStyles.css';
 
 const Step4Generate = ({
@@ -15,8 +14,6 @@ const Step4Generate = ({
   setPromptOrder,
 }) => {
   const [items, setItems] = useState([]);
-  const y = useMotionValue(0);
-  const dragControls = useDragControls();
 
   // Initialize items when component loads or selections change
   useEffect(() => {
@@ -39,21 +36,8 @@ const Step4Generate = ({
     }
   }, [selectedProduct, selectedPersona, selectedSmalltalk, promptOrder]);
 
-  // Update parent's promptOrder when items are reordered
-  const handleReorder = newOrder => {
-    setItems(newOrder);
-    setPromptOrder(newOrder);
-  };
-
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100 }}
-      transition={{ duration: 0.5 }}
-      className="step-card"
-      style={{ height: '100%' }}
-    >
+    <div className="step-card" style={{ height: '100%' }}>
       <Card
         style={{ borderRadius: '10px', height: '100%' }}
         header={
@@ -79,35 +63,23 @@ const Step4Generate = ({
           }}
         >
           <div className="mb-4" style={{ flex: 1, overflow: 'auto' }}>
-            <h3>Review & Arrange Your Selections</h3>
-            <p className="mb-3">Drag and drop to rearrange the order of prompt elements:</p>
+            <h3>Review Your Selections</h3>
+            <p className="mb-3">Here is the order of prompt elements:</p>
 
-            <Reorder.Group
-              axis="y"
-              values={items}
-              onReorder={handleReorder}
-              className="reorder-group"
-            >
+            <div className="reorder-group">
               {items.map(item => (
-                <Reorder.Item
+                <div
                   key={item.id}
-                  value={item}
-                  className="p-card p-4 mb-3 surface-50 cursor-move"
-                  whileDrag={{
-                    scale: 1.02,
-                    boxShadow: '0 5px 10px rgba(0, 0, 0, 0.1)',
-                    backgroundColor: 'var(--surface-100)',
-                  }}
+                  className="p-card p-4 mb-3 surface-50"
                 >
                   <div className="flex align-items-center">
-                    <i className="pi pi-bars mr-2 text-500" style={{ fontSize: '1rem' }}></i>
                     <p className="m-0">
                       <strong>{item.label}:</strong> {item.value}
                     </p>
                   </div>
-                </Reorder.Item>
+                </div>
               ))}
-            </Reorder.Group>
+            </div>
           </div>
 
           <div className="flex justify-content-between mt-4" style={{ flexShrink: 0 }}>
@@ -129,7 +101,7 @@ const Step4Generate = ({
           </div>
         </div>
       </Card>
-    </motion.div>
+    </div>
   );
 };
 
