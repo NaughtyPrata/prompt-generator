@@ -49,6 +49,8 @@ main {
     background-color: transparent;
 }
 
+/* Step navigation styles have been removed */
+
 /* Step content transitions */
 .step-content {
     opacity: 0;
@@ -103,6 +105,51 @@ main {
 }
 
 /* Card styles for product and persona selection */
+
+
+.card-option:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth transition for the selection outline */
+.card-option::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid transparent;
+    border-radius: 0.625rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, border-color 0.3s ease;
+}
+
+.card-option.selected::after {
+    opacity: 1;
+}
+
+.card-option.selected {
+    border-color: var(--aia-red);
+    box-shadow: 0 0 0 2px rgba(237, 27, 47, 0.2);
+    position: relative; /* Add position relative for pseudo-element */
+}
+
+/* Add a pseudo-element to create a perfect rounded outline */
+.card-option.selected::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--aia-red);
+    border-radius: 0.625rem; /* Slightly larger than the card's border-radius */
+    pointer-events: none; /* Don't interfere with clicks */
+    z-index: 1; /* Above the card but below the content */
+}
+
 .card-option {
     transition: all 0.3s ease;
     border-radius: 0.5rem;
@@ -115,39 +162,6 @@ main {
     height: auto; /* Let height be determined by content */
     min-height: 300px; /* Minimum height for consistency */
     position: relative; /* Add positioning context */
-}
-
-.card-option:hover {
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Dark overlay for unselected products when there's a selection */
-.card-option.dimmed::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 0.5rem;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* Selected product remains bright - no red outline */
-.card-option.selected {
-    border-color: #e5e7eb;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transform: scale(1.02); /* Slight scale up for selected product */
-}
-
-/* Hover effect for selected product */
-.card-option.selected:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Separate overflow rule for the image while keeping card corners visible */
@@ -278,6 +292,8 @@ main {
     margin-right: 0.5rem;
 }
 
+/* Steps indicator has been removed */
+
 /* Navigation bar styles */
 #navigation-bar {
     transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -379,11 +395,12 @@ body {
 }
 
 .dark-theme .card-option.selected {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0 2px rgba(237, 27, 47, 0.4), 0 10px 15px rgba(0, 0, 0, 0.3);
 }
 
-.dark-theme .card-option.dimmed::before {
-    background-color: rgba(0, 0, 0, 0.8);
+.dark-theme .card-option.selected::after {
+    border-color: var(--aia-red);
+    box-shadow: 0 0 0 1px rgba(237, 27, 47, 0.4);
 }
 
 .dark-theme .button-option {
@@ -528,40 +545,4 @@ body {
         min-width: 100px !important;
         width: 100px !important;
     }
-}
-
-/* Product selection overlay styles for product cards specifically */
-#product-card-group > div {
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#product-card-group > div.dimmed::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 0.5rem;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-    z-index: 2;
-    pointer-events: none;
-}
-
-#product-card-group > div.selected {
-    transform: scale(1.02);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-#product-card-group > div.selected:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Dark theme for product cards */
-.dark-theme #product-card-group > div.dimmed::before {
-    background-color: rgba(0, 0, 0, 0.8);
 }

@@ -179,90 +179,38 @@
     }
     
     /**
-     * Helper function to update the product next button state
-     */
-    function updateProductNextButton(isEnabled) {
-        const productNextButton = document.getElementById('product-next');
-        if (productNextButton) {
-            productNextButton.disabled = !isEnabled;
-            if (isEnabled) {
-                productNextButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                productNextButton.classList.add('hover:bg-red-700');
-            } else {
-                productNextButton.classList.add('opacity-50', 'cursor-not-allowed');
-                productNextButton.classList.remove('hover:bg-red-700');
-            }
-        }
-    }
-    
-    /**
      * Sets up event listeners for user interactions
      */
     function setupEventListeners() {
-        // Initially disable the product next button
-        updateProductNextButton(false);
-        
-        // Product card clicks - NEW BEHAVIOR: Toggle selection and use overlay for unselected
+        // Product card clicks
         document.querySelectorAll('#product-card-group > div').forEach(card => {
             card.addEventListener('click', async function() {
-                const productId = this.dataset.value;
+                // Remove selected class from all cards in the group
+                document.querySelectorAll('#product-card-group > div').forEach(c => {
+                    c.classList.remove('selected');
+                    c.querySelector('img').classList.remove('ring-4', 'ring-aia-red');
+                });
+                
+                // Add selected class to clicked card
+                this.classList.add('selected');
+                this.querySelector('img').classList.add('ring-4', 'ring-aia-red');
+                
+                // Select the actual radio input
                 const radioInput = this.querySelector('input[type="radio"]');
+                radioInput.checked = true;
+                
+                const productId = this.dataset.value;
+                
+                // Load product content
+                const content = await PromptGenerator.setProduct(productId);
+                
+                // Get the product name from alt text
                 const productName = this.querySelector('img').alt;
                 
-                // Check if this card is already selected
-                const isAlreadySelected = this.classList.contains('selected');
+                // Update the product selection display
+                document.querySelector('#product-selection .font-medium').textContent = productName;
                 
-                if (isAlreadySelected) {
-                    // Unselect the product
-                    this.classList.remove('selected');
-                    radioInput.checked = false;
-                    
-                    // Remove dimmed class from all cards
-                    document.querySelectorAll('#product-card-group > div').forEach(c => {
-                        c.classList.remove('dimmed');
-                    });
-                    
-                    // Clear product selection
-                    document.querySelector('#product-selection .font-medium').textContent = 'None selected';
-                    
-                    // Reset prompt generator
-                    if (typeof PromptGenerator !== 'undefined' && PromptGenerator.setProduct) {
-                        PromptGenerator.setProduct(null);
-                    }
-                    
-                    // Disable the next button when no product is selected
-                    updateProductNextButton(false);
-                } else {
-                    // Remove selected class from all cards in the group
-                    document.querySelectorAll('#product-card-group > div').forEach(c => {
-                        c.classList.remove('selected');
-                        c.querySelector('input[type="radio"]').checked = false;
-                    });
-                    
-                    // Add selected class to clicked card
-                    this.classList.add('selected');
-                    radioInput.checked = true;
-                    
-                    // Add dimmed class to all other cards
-                    document.querySelectorAll('#product-card-group > div').forEach(c => {
-                        if (c !== this) {
-                            c.classList.add('dimmed');
-                        } else {
-                            c.classList.remove('dimmed');
-                        }
-                    });
-                    
-                    // Load product content
-                    if (typeof PromptGenerator !== 'undefined' && PromptGenerator.setProduct) {
-                        const content = await PromptGenerator.setProduct(productId);
-                    }
-                    
-                    // Update the product selection display
-                    document.querySelector('#product-selection .font-medium').textContent = productName;
-                    
-                    // Enable the next button when a product is selected
-                    updateProductNextButton(true);
-                }
+                // Next button is already enabled
             });
         });
         
@@ -284,9 +232,7 @@
                 const personaId = this.dataset.value;
                 
                 // Load persona content
-                if (typeof PromptGenerator !== 'undefined' && PromptGenerator.setPersona) {
-                    const content = await PromptGenerator.setPersona(personaId);
-                }
+                const content = await PromptGenerator.setPersona(personaId);
                 
                 // Get the persona name from the card
                 const personaName = this.querySelector('.card-title').textContent;
@@ -303,18 +249,14 @@
                     'professional': 'lni lni-briefcase'
                 };
                 
-                if (personaImage) {
-                    personaImage.innerHTML = `
-                        <div class="w-full h-full flex items-center justify-center bg-gray-700 bg-opacity-70">
-                            <i class="${icons[personaId] || 'lni lni-user'} text-white text-6xl"></i>
-                        </div>
-                    `;
-                }
+                personaImage.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center bg-gray-700 bg-opacity-70">
+                        <i class="${icons[personaId] || 'lni lni-user'} text-white text-6xl"></i>
+                    </div>
+                `;
                 
                 // Enable the next button
-                if (typeof UIController !== 'undefined' && UIController.elements && UIController.elements.next2Button) {
-                    UIController.elements.next2Button.disabled = false;
-                }
+                UIController.elements.next2Button.disabled = false;
             });
         });
         
@@ -336,9 +278,7 @@
                 const smalltalkId = this.dataset.value;
                 
                 // Load small talk content
-                if (typeof PromptGenerator !== 'undefined' && PromptGenerator.setSmalltalk) {
-                    const content = await PromptGenerator.setSmalltalk(smalltalkId);
-                }
+                const content = await PromptGenerator.setSmalltalk(smalltalkId);
                 
                 // Get the formatted name from the button text
                 const smalltalkName = this.querySelector('span').textContent;
@@ -365,9 +305,7 @@
                 const levelName = this.querySelector('.font-medium').textContent;
                 
                 // Set the level in the prompt generator
-                if (typeof PromptGenerator !== 'undefined' && PromptGenerator.setLevel) {
-                    PromptGenerator.setLevel(levelId);
-                }
+                PromptGenerator.setLevel(levelId);
                 
                 // Update the level selection display
                 document.querySelector('#level-selection .font-medium').textContent = levelName;
@@ -382,57 +320,43 @@
             const levelSelected = document.querySelector('#level-button-group .button-option.selected') !== null;
             
             // Enable the next button only if both are selected
-            if (typeof UIController !== 'undefined' && UIController.elements && UIController.elements.next3Button) {
-                UIController.elements.next3Button.disabled = !(smalltalkSelected && levelSelected);
-            }
+            UIController.elements.next3Button.disabled = !(smalltalkSelected && levelSelected);
         }
         
         // Generate button click
-        if (typeof UIController !== 'undefined' && UIController.elements && UIController.elements.generateButton) {
-            UIController.elements.generateButton.addEventListener('click', function() {
-                try {
-                    // Get the component order
-                    const order = UIController.getComponentOrder();
-                    
-                    // Generate the prompt
-                    const promptContent = PromptGenerator.generatePrompt(order);
-                    
-                    // Show the result page
-                    UIController.showResultPage(promptContent);
-                } catch (error) {
-                    console.error('Error generating prompt:', error);
-                    if (typeof UIController !== 'undefined' && UIController.showToast) {
-                        UIController.showToast('Error generating prompt: ' + error.message);
-                    }
-                }
-            });
-        }
+        UIController.elements.generateButton.addEventListener('click', function() {
+            try {
+                // Get the component order
+                const order = UIController.getComponentOrder();
+                
+                // Generate the prompt
+                const promptContent = PromptGenerator.generatePrompt(order);
+                
+                // Show the result page
+                UIController.showResultPage(promptContent);
+            } catch (error) {
+                console.error('Error generating prompt:', error);
+                UIController.showToast('Error generating prompt: ' + error.message);
+            }
+        });
         
         // Copy button click
-        if (typeof UIController !== 'undefined' && UIController.elements && UIController.elements.copyButton) {
-            UIController.elements.copyButton.addEventListener('click', async function() {
-                const content = UIController.elements.promptResult.textContent;
-                const success = await PromptGenerator.copyToClipboard(content);
-                
-                if (success) {
-                    UIController.showToast('Prompt copied to clipboard');
-                } else {
-                    UIController.showToast('Failed to copy to clipboard');
-                }
-            });
-        }
+        UIController.elements.copyButton.addEventListener('click', async function() {
+            const content = UIController.elements.promptResult.textContent;
+            const success = await PromptGenerator.copyToClipboard(content);
+            
+            if (success) {
+                UIController.showToast('Prompt copied to clipboard');
+            } else {
+                UIController.showToast('Failed to copy to clipboard');
+            }
+        });
         
         // Save button click
-        if (typeof UIController !== 'undefined' && UIController.elements && UIController.elements.saveButton) {
-            UIController.elements.saveButton.addEventListener('click', function() {
-                const content = UIController.elements.promptResult.textContent;
-                if (typeof PromptGenerator !== 'undefined' && PromptGenerator.savePrompt) {
-                    PromptGenerator.savePrompt(content);
-                }
-                if (typeof UIController !== 'undefined' && UIController.showToast) {
-                    UIController.showToast('Prompt saved successfully');
-                }
-            });
-        }
+        UIController.elements.saveButton.addEventListener('click', function() {
+            const content = UIController.elements.promptResult.textContent;
+            PromptGenerator.savePrompt(content);
+            UIController.showToast('Prompt saved successfully');
+        });
     }
 })();
