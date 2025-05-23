@@ -572,6 +572,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 2rem 0;
     margin: 2rem auto;
+    overflow: visible;
+    width: 100%;
 }

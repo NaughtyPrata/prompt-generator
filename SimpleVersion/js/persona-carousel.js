@@ -87,9 +87,9 @@ class PersonaCarousel {
         const cards = this.container.querySelectorAll('.carousel-card-container');
         
         cards.forEach((card, i) => {
-            const offset = (this.active - i) / 3;
-            const absOffset = Math.abs(this.active - i) / 3;
-            const direction = Math.sign(this.active - i);
+            const offset = (i - this.active) / 2; // Reduced divisor for closer spacing
+            const absOffset = Math.abs(i - this.active) / 2;
+            const direction = Math.sign(i - this.active);
             
             card.style.setProperty('--active', i === this.active ? 1 : 0);
             card.style.setProperty('--offset', offset);
@@ -103,8 +103,8 @@ class PersonaCarousel {
                 card.style.zIndex = Math.max(1, 10 - Math.abs(this.active - i));
             }
             
-            // Handle visibility
-            if (Math.abs(this.active - i) >= this.maxVisibility) {
+            // Handle visibility - show more cards
+            if (Math.abs(this.active - i) > this.maxVisibility) {
                 card.style.opacity = '0';
                 card.style.visibility = 'hidden';
                 card.style.pointerEvents = 'none';
