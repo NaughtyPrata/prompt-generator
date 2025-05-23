@@ -46,6 +46,7 @@ main {
     padding: 0;
     height: calc(100vh - 130px); /* Subtract header and footer height */
     overflow-y: auto;
+    overflow-x: visible; /* Allow horizontal overflow for carousel navigation */
     background-color: transparent;
 }
 
@@ -572,8 +573,41 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 0;
+    padding: 2rem 1rem; /* Added horizontal padding to prevent button cutoff */
     margin: 2rem auto;
     overflow: visible;
     width: 100%;
+    max-width: 1300px; /* Added max-width to ensure proper centering */
+}
+
+/* Step 2 specific padding to accommodate carousel navigation */
+#step-2 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    overflow: visible; /* Ensure carousel navigation buttons are not clipped */
+    position: relative; /* Create positioning context */
+}
+
+@media (max-width: 768px) {
+    #persona-carousel-container {
+        padding: 2rem 0.5rem; /* Reduced padding but still maintained for mobile */
+        min-height: 400px;
+    }
+    
+    #step-2 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #persona-carousel-container {
+        padding: 2rem 0.25rem; /* Minimal padding for very small screens */
+        min-height: 350px;
+    }
+    
+    #step-2 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
 }

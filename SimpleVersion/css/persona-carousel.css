@@ -14,7 +14,7 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 6rem;
+    padding: 2rem 5rem;
     perspective: 1200px;
     transform-style: preserve-3d;
     min-height: calc(var(--card-height) + 4rem);
@@ -65,7 +65,7 @@
     justify-content: center;
     cursor: pointer;
     user-select: none;
-    z-index: 2;
+    z-index: 100;
     transition: all 0.2s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -78,11 +78,11 @@
 }
 
 .carousel-nav.left {
-    left: -4rem;
+    left: -3rem;
 }
 
 .carousel-nav.right {
-    right: -4rem;
+    right: -3rem;
 }
 
 /* Persona Card Styles (for carousel) */
@@ -201,7 +201,7 @@
     }
     
     .persona-carousel {
-        padding: 1rem 3rem;
+        padding: 1rem 4rem;
     }
     
     .carousel-nav {
@@ -210,12 +210,40 @@
         font-size: 1.5rem;
     }
     
+    .carousel-nav.left {
+        left: -2.5rem;
+    }
+    
+    .carousel-nav.right {
+        right: -2.5rem;
+    }
+    
     .persona-card-container {
         transform: 
             rotateY(calc(var(--offset) * 40deg)) 
             scaleY(calc(1 + var(--abs-offset) * -0.3))
             translateZ(calc(var(--abs-offset) * -20rem))
             translateX(calc(var(--direction) * -3rem));
+    }
+}
+
+@media (max-width: 480px) {
+    .persona-carousel {
+        padding: 1rem 3.5rem;
+    }
+    
+    .carousel-nav {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .carousel-nav.left {
+        left: -2rem;
+    }
+    
+    .carousel-nav.right {
+        right: -2rem;
     }
 }
 
