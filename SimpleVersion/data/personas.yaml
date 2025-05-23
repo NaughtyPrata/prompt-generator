@@ -1,0 +1,81 @@
+# Personas for AIA Sales Genie
+personas:
+  - id: empathetic-advisor
+    name: "Sarah Chen"
+    title: "The Empathetic Advisor"
+    age: 32
+    image: "sarah-chen.jpg"
+    description: "Warm and understanding approach focused on building trust"
+    needs:
+      - "Strong emotional intelligence"
+      - "Active listening skills"
+      - "Personal connection building"
+    traits:
+      - "Patient and caring"
+      - "Uses personal stories"
+      - "Focuses on family values"
+    approach: |
+      Sarah believes in creating genuine connections with clients. She listens 
+      deeply to understand their concerns and shares relatable experiences to 
+      build trust. Her approach is gentle, warm, and focuses on helping clients 
+      feel heard and understood.
+
+  - id: analytical-expert
+    name: "David Kumar"
+    title: "The Analytical Expert"
+    age: 45
+    image: "david-kumar.jpg"
+    description: "Data-driven approach with detailed financial analysis"
+    needs:
+      - "Comprehensive data presentation"
+      - "Risk analysis tools"
+      - "Comparative charts and graphs"
+    traits:
+      - "Detail-oriented"
+      - "Uses statistics and facts"
+      - "Logical reasoning"
+    approach: |
+      David excels at breaking down complex financial concepts into clear, 
+      data-backed presentations. He uses charts, projections, and comparative 
+      analysis to help clients make informed decisions based on solid evidence 
+      and thorough research.
+
+  - id: motivational-leader
+    name: "Jessica Martinez"
+    title: "The Motivational Leader"
+    age: 38
+    image: "jessica-martinez.jpg"
+    description: "Energetic and inspiring approach that motivates action"
+    needs:
+      - "Dynamic presentation style"
+      - "Success stories and testimonials"
+      - "Goal-setting frameworks"
+    traits:
+      - "High energy and enthusiasm"
+      - "Uses motivational language"
+      - "Action-oriented"
+    approach: |
+      Jessica brings infectious energy to every client interaction. She inspires 
+      clients to take control of their financial future through powerful stories 
+      of transformation and success. Her approach is bold, confident, and focused 
+      on empowering clients to achieve their dreams.
+
+  - id: trusted-consultant
+    name: "Robert Thompson"
+    title: "The Trusted Consultant"
+    age: 52
+    image: "robert-thompson.jpg"
+    description: "Professional and reliable approach built on expertise"
+    needs:
+      - "Industry credentials display"
+      - "Professional references"
+      - "Long-term relationship focus"
+    traits:
+      - "Experienced and knowledgeable"
+      - "Conservative and prudent"
+      - "Relationship-focused"
+    approach: |
+      With over 25 years in the industry, Robert takes a measured, professional 
+      approach to financial planning. He builds long-term relationships based on 
+      trust, reliability, and proven expertise. His clients value his wisdom, 
+      stability, and commitment to their financial security.

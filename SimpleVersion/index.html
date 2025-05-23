@@ -27,13 +27,14 @@
         }
         
         /* Strong override for font-family */
-        body, h1, h2, h3, p, div, span, button, .card-title, .card-description {
-            font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif !important;
+        body, h1, h2, h3, h4, p, div, span, button, .card-title, .card-description {
+            font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif;
         }
     </style>
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/persona-carousel.css">
     
     <!-- Tailwind Configuration -->
     <script>
@@ -91,42 +92,25 @@
             
         <!-- Step 2: Persona Selection -->
         <div id="step-2" class="step-content">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-2xl font-bold text-aia-gray">Select a Persona</h2>
-                    <!-- Step Indicator -->
-                    <div class="step-indicator">
-                        <div class="step-indicator-item completed">Step 1: Product</div>
-                        <div class="step-indicator-item active">Step 2: Persona</div>
-                        <div class="step-indicator-item inactive">Step 3: Options</div>
-                        <div class="step-indicator-item inactive">Step 4: Review</div>
-                    </div>
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-aia-gray">Select a Persona</h2>
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step-indicator-item completed">Step 1: Product</div>
+                    <div class="step-indicator-item active">Step 2: Persona</div>
+                    <div class="step-indicator-item inactive">Step 3: Options</div>
+                    <div class="step-indicator-item inactive">Step 4: Review</div>
                 </div>
-                <p class="text-gray-600 mb-6">Choose the communication style that best matches your approach:</p>
-                
-                <div class="mb-6">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <!-- Left column with image on larger screens -->
-                        <div class="lg:col-span-1 order-2 lg:order-1">
-                            <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md h-full min-h-[250px] flex items-center justify-center">
-                                <div id="persona-image" class="w-full h-full bg-cover bg-center" style="background-image: url('img/placeholder-persona.jpg');">
-                                    <div class="w-full h-full flex items-center justify-center text-gray-400">
-                                        <i class="lni lni-user text-6xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Right column with persona cards -->
-                        <div class="lg:col-span-2 order-1 lg:order-2">
-                            <div id="persona-card-group" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <!-- Persona cards will be populated by JavaScript -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Navigation buttons moved to bottom navigation bar -->
             </div>
+            <p class="text-gray-600 mb-6">Choose the communication style that best matches your approach:</p>
+            
+            <!-- Persona Carousel Container -->
+            <div id="persona-carousel-container" class="mb-6">
+                <!-- Carousel will be populated by JavaScript -->
+            </div>
+            
+            <!-- Navigation buttons moved to bottom navigation bar -->
+        </div>
             
         <!-- Step 3: Small Talk and Difficulty Level -->
         <div id="step-3" class="step-content">
@@ -397,6 +381,9 @@
     </div>
 
     <!-- External JavaScript -->
+    <script src="js/persona-card.js"></script>
+    <script src="js/persona-data-loader.js"></script>
+    <script src="js/persona-carousel.js"></script>
     <script src="js/prompt-data.js"></script>
     <script src="js/ui-controller.js"></script>
     <script src="js/prompt-generator.js"></script>

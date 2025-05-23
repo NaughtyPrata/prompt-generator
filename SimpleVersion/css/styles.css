@@ -36,7 +36,7 @@ body.architype-enabled p,
 body.architype-enabled div,
 body.architype-enabled span,
 body.architype-enabled button {
-    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif !important;
+    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif;
 }
 
 /* Main container for steps */
@@ -170,7 +170,7 @@ main {
 }
 
 .card-option .card-content {
-    padding: 1rem !important;
+    padding: 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -183,20 +183,20 @@ main {
 }
 
 .card-option .card-title {
-    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif !important;
-    font-weight: 600 !important;
-    font-size: 1rem !important;
-    margin-bottom: 0.5rem !important;
-    color: var(--aia-gray) !important;
+    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--aia-gray);
     word-wrap: break-word; /* Ensure long titles wrap properly */
 }
 
 .card-option .card-description {
-    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif !important;
-    font-size: 0.875rem !important;
-    color: #666 !important;
+    font-family: 'Architype', 'Segoe UI', Tahoma, sans-serif;
+    font-size: 0.875rem;
+    color: #666;
     flex-grow: 1;
-    line-height: 1.4 !important;
+    line-height: 1.4;
     overflow: visible; /* Allow text to be fully visible */
     word-wrap: break-word; /* Ensure long descriptions wrap properly */
     display: block; /* Ensure the text is displayed properly */
@@ -209,11 +209,15 @@ main {
 
 /* Fix button positioning to match mockup */
 .next-btn.active {
-    display: inline-flex !important;
+    display: inline-flex;
 }
 
 .prev-btn.active {
-    display: inline-flex !important;
+    display: inline-flex;
+}
+
+.prev-btn.active, .next-btn.active {
+    align-items: center;
 }
 
 /* Ensure proper border radius for cards and images */
@@ -284,7 +288,7 @@ main {
 }
 
 .dark-theme #navigation-bar {
-    background-color: #333 !important;
+    background-color: #333;
     border-color: #444;
 }
 
@@ -301,10 +305,6 @@ main {
     display: none;
 }
 
-.prev-btn.active, .next-btn.active {
-    display: inline-flex !important;
-    align-items: center;
-}
 
 /* Add padding to the bottom of the body to account for the navigation bar and footer */
 body {
@@ -313,7 +313,7 @@ body {
 
 /* Fixed container for navigation buttons */
 .fixed.z-40.left-0.right-0 {
-    bottom: 100px !important;
+    bottom: 100px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -417,7 +417,7 @@ body {
 .dark-theme #persona-preview,
 .dark-theme #smalltalk-preview,
 .dark-theme #prompt-result {
-    background-color: #333 !important;
+    background-color: #333;
     color: #f5f5f5;
 }
 
@@ -481,52 +481,52 @@ body {
 /* Additional button width adjustments */
 /* Product page Next button - DOUBLE WIDTH */
 #product-next {
-    min-width: 320px !important; /* Double width (160px * 2) for the product selection page */
-    width: 320px !important; /* Double width (160px * 2) for the product selection page */
-    white-space: nowrap !important; /* Prevent text from wrapping to multiple lines */
-    padding-left: 8px !important; /* Reduced padding to allow more text space */
-    padding-right: 8px !important; /* Reduced padding to allow more text space */
-    display: flex !important; /* Ensure flex display */
-    justify-content: center !important; /* Center the content horizontally */
-    align-items: center !important; /* Center the content vertically */
-    text-align: center !important; /* Center the text */
+    min-width: 320px; /* Double width (160px * 2) for the product selection page */
+    width: 320px; /* Double width (160px * 2) for the product selection page */
+    white-space: nowrap; /* Prevent text from wrapping to multiple lines */
+    padding-left: 8px; /* Reduced padding to allow more text space */
+    padding-right: 8px; /* Reduced padding to allow more text space */
+    display: flex; /* Ensure flex display */
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+    text-align: center; /* Center the text */
 }
 
 /* For all other pages, make Previous buttons match Next button width */
 #prev-2, #prev-3, #prev-4,
 #next-2, #next-3 {
-    min-width: 160px !important; /* Consistent width for all other navigation buttons */
-    width: 160px !important; /* Consistent width for all other navigation buttons */
+    min-width: 160px; /* Consistent width for all other navigation buttons */
+    width: 160px; /* Consistent width for all other navigation buttons */
 }
 
 /* Mobile responsiveness for button widths */
 @media (max-width: 640px) {
     /* Product page Next button - still DOUBLE WIDTH on mobile */
     #product-next {
-        min-width: 240px !important; /* Double the mobile base width */
-        width: 240px !important;
+        min-width: 240px; /* Double the mobile base width */
+        width: 240px;
     }
     
     /* All other navigation buttons use standard mobile width */
     #prev-2, #prev-3, #prev-4,
     #next-2, #next-3 {
-        min-width: 120px !important;
-        width: 120px !important;
+        min-width: 120px;
+        width: 120px;
     }
 }
 
 @media (max-width: 480px) {
     /* Product page Next button - still larger on small screens */
     #product-next {
-        min-width: 200px !important;
-        width: 200px !important;
+        min-width: 200px;
+        width: 200px;
     }
     
     /* Other buttons at smallest responsive size */
     #prev-2, #prev-3, #prev-4,
     #next-2, #next-3 {
-        min-width: 100px !important;
-        width: 100px !important;
+        min-width: 100px;
+        width: 100px;
     }
 }
 
@@ -564,4 +564,14 @@ body {
 /* Dark theme for product cards */
 .dark-theme #product-card-group > div.dimmed::before {
     background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Persona Carousel Container */
+#persona-carousel-container {
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    margin: 2rem auto;
 }

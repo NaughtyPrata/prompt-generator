@@ -3,6 +3,47 @@
  * Initializes and connects all components
  */
 
+// Global variable to store persona carousel instance
+let personaCarousel = null;
+
+// Function to initialize persona carousel
+async function initializePersonaCarousel() {
+    try {
+        const personas = await PersonaDataLoader.loadPersonas();
+        personaCarousel = new PersonaCarousel('persona-carousel-container', personas);
+        
+        // Listen for persona selection from carousel
+        document.getElementById('persona-carousel-container').addEventListener('persona-auto-selected', async (e) => {
+            const persona = e.detail;
+            
+            // Map new persona IDs to old ones for compatibility
+            const personaMapping = {
+                'persona-1': 'friendly',
+                'persona-2': 'empathetic',
+                'persona-3': 'educational',
+                'persona-4': 'professional'
+            };
+            
+            const mappedPersonaId = personaMapping[persona.id] || persona.id;
+            
+            // Load persona content
+            if (typeof PromptGenerator !== 'undefined' && PromptGenerator.setPersona) {
+                await PromptGenerator.setPersona(mappedPersonaId);
+            }
+            
+            // Update the persona selection display
+            document.querySelector('#persona-selection .font-medium').textContent = persona.name;
+            
+            // Enable the next button
+            if (typeof UIController !== 'undefined' && UIController.elements && UIController.elements.next2Button) {
+                UIController.elements.next2Button.disabled = false;
+            }
+        });
+    } catch (error) {
+        console.error('Error initializing persona carousel:', error);
+    }
+}
+
 (async function() {
     // Initialize UI
     UIController.init();
@@ -66,57 +107,8 @@
             productCardGroup.appendChild(cardDiv);
         });
         
-        // Personas card group
-        const personas = PromptData.getPersonasList();
-        const personaCardGroup = document.getElementById('persona-card-group');
-        
-        // Define persona details with icons
-        const personaDetails = {
-            'educational': { 
-                icon: 'lni lni-graduation',
-                description: 'Informative and educational approach focused on explaining complex concepts clearly.'
-            },
-            'empathetic': { 
-                icon: 'lni lni-heart',
-                description: 'Compassionate and understanding approach that connects on an emotional level.'
-            },
-            'friendly': { 
-                icon: 'lni lni-smile',
-                description: 'Warm and approachable communication style that builds rapport quickly.'
-            },
-            'professional': { 
-                icon: 'lni lni-briefcase',
-                description: 'Formal and businesslike approach that emphasizes expertise and authority.'
-            }
-        };
-        
-        personas.forEach(persona => {
-            const formattedName = persona.replace(/([A-Z])/g, ' $1')
-                .replace(/^./, str => str.toUpperCase());
-            
-            const details = personaDetails[persona] || { 
-                icon: 'lni lni-user', 
-                description: 'A communication style for engaging with customers.'
-            };
-            
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'card-option shadow-md';
-            cardDiv.dataset.value = persona;
-            cardDiv.dataset.type = 'persona';
-            
-            cardDiv.innerHTML = `
-                <input type="radio" id="persona-${persona}" name="persona" class="hidden" value="${persona}">
-                <div class="card-content">
-                    <div class="flex items-center mb-2">
-                        <i class="${details.icon} text-aia-red text-2xl mr-2"></i>
-                        <h3 class="card-title">${formattedName}</h3>
-                    </div>
-                    <p class="card-description">${details.description}</p>
-                </div>
-            `;
-            
-            personaCardGroup.appendChild(cardDiv);
-        });
+        // Initialize Persona Carousel
+        initializePersonaCarousel();
         
         // Small talks button group
         const smalltalks = PromptData.getSmalltalksList();
@@ -262,58 +254,6 @@
                     
                     // Enable the next button when a product is selected
                     updateProductNextButton(true);
-                }
-            });
-        });
-        
-        // Persona card clicks
-        document.querySelectorAll('#persona-card-group .card-option').forEach(card => {
-            card.addEventListener('click', async function() {
-                // Remove selected class from all cards in the group
-                document.querySelectorAll('#persona-card-group .card-option').forEach(c => {
-                    c.classList.remove('selected');
-                });
-                
-                // Add selected class to clicked card
-                this.classList.add('selected');
-                
-                // Select the actual radio input
-                const radioInput = this.querySelector('input[type="radio"]');
-                radioInput.checked = true;
-                
-                const personaId = this.dataset.value;
-                
-                // Load persona content
-                if (typeof PromptGenerator !== 'undefined' && PromptGenerator.setPersona) {
-                    const content = await PromptGenerator.setPersona(personaId);
-                }
-                
-                // Get the persona name from the card
-                const personaName = this.querySelector('.card-title').textContent;
-                
-                // Update the persona selection display
-                document.querySelector('#persona-selection .font-medium').textContent = personaName;
-                
-                // Update the persona image based on selection
-                const personaImage = document.getElementById('persona-image');
-                const icons = {
-                    'educational': 'lni lni-graduation',
-                    'empathetic': 'lni lni-heart',
-                    'friendly': 'lni lni-smile',
-                    'professional': 'lni lni-briefcase'
-                };
-                
-                if (personaImage) {
-                    personaImage.innerHTML = `
-                        <div class="w-full h-full flex items-center justify-center bg-gray-700 bg-opacity-70">
-                            <i class="${icons[personaId] || 'lni lni-user'} text-white text-6xl"></i>
-                        </div>
-                    `;
-                }
-                
-                // Enable the next button
-                if (typeof UIController !== 'undefined' && UIController.elements && UIController.elements.next2Button) {
-                    UIController.elements.next2Button.disabled = false;
                 }
             });
         });
