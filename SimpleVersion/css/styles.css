@@ -494,3 +494,55 @@ body {
 @media (max-width: 640px) {
     /* Step navigation styles have been removed */
 }
+
+/* Additional button width adjustments */
+/* Product page Next button - DOUBLE WIDTH */
+#product-next {
+    min-width: 320px !important; /* Double width (160px * 2) for the product selection page */
+    width: 320px !important; /* Double width (160px * 2) for the product selection page */
+    white-space: nowrap !important; /* Prevent text from wrapping to multiple lines */
+    padding-left: 8px !important; /* Reduced padding to allow more text space */
+    padding-right: 8px !important; /* Reduced padding to allow more text space */
+    display: flex !important; /* Ensure flex display */
+    justify-content: center !important; /* Center the content horizontally */
+    align-items: center !important; /* Center the content vertically */
+    text-align: center !important; /* Center the text */
+}
+
+/* For all other pages, make Previous buttons match Next button width */
+#prev-2, #prev-3, #prev-4,
+#next-2, #next-3 {
+    min-width: 160px !important; /* Consistent width for all other navigation buttons */
+    width: 160px !important; /* Consistent width for all other navigation buttons */
+}
+
+/* Mobile responsiveness for button widths */
+@media (max-width: 640px) {
+    /* Product page Next button - still DOUBLE WIDTH on mobile */
+    #product-next {
+        min-width: 240px !important; /* Double the mobile base width */
+        width: 240px !important;
+    }
+    
+    /* All other navigation buttons use standard mobile width */
+    #prev-2, #prev-3, #prev-4,
+    #next-2, #next-3 {
+        min-width: 120px !important;
+        width: 120px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Product page Next button - still larger on small screens */
+    #product-next {
+        min-width: 200px !important;
+        width: 200px !important;
+    }
+    
+    /* Other buttons at smallest responsive size */
+    #prev-2, #prev-3, #prev-4,
+    #next-2, #next-3 {
+        min-width: 100px !important;
+        width: 100px !important;
+    }
+}

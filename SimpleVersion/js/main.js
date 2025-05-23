@@ -26,49 +26,42 @@
                 id: "product1", // Changed to match the file names in PromptData
                 name: "Health Happy",
                 shortDescription: "Health Insurance with lump-sum benefits up to 25M THB/year, covers OPD and IPD",
-                imageUrl: "img/placeholder-health-plus.jpg"
+                imageUrl: "img/aia_health_happy.jpg"
             },
             {
                 id: "product2", // Changed to match the file names in PromptData
                 name: "Personal Accident",
                 shortDescription: "Accident Insurance covering medical expenses with cashless hospital benefits",
-                imageUrl: "img/placeholder-accident.jpg"
+                imageUrl: "img/aia_personal_accident.jpg"
             },
             {
                 id: "product3", // Changed to match the file names in PromptData
                 name: "Infinite Care",
                 shortDescription: "Premium health insurance with worldwide coverage and comprehensive treatment",
-                imageUrl: "img/placeholder-secure-life.jpg"
+                imageUrl: "img/aia_infinite_care.jpg"
             },
             {
                 id: "product4", // Changed to match the file names in PromptData
                 name: "CI SuperCare",
                 shortDescription: "Critical Illness Cover for early-stage and severe diseases, including major causes of death",
-                imageUrl: "img/placeholder-retirement.jpg"
+                imageUrl: "img/aia_non_par.jpg"
             }
         ];
         
         // Products card group
         const productCardGroup = document.getElementById('product-card-group');
+        productCardGroup.className = 'grid grid-cols-2 md:grid-cols-4 gap-4';
         
         aiaProducts.forEach(product => {
             const cardDiv = document.createElement('div');
-            cardDiv.className = 'card-option flex flex-col border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer';
+            cardDiv.className = 'cursor-pointer hover:opacity-80 transition-opacity';
             cardDiv.dataset.value = product.id;
             cardDiv.dataset.type = 'product';
             
             cardDiv.innerHTML = `
                 <input type="radio" id="product-${product.id}" name="product" class="hidden" value="${product.id}">
-                <div class="card-image" style="background-image: url('${product.imageUrl}');">
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">${product.name}</h3>
-                    <p class="card-description">${product.shortDescription}</p>
-                </div>
+                <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-auto rounded-lg shadow-md hover:shadow-lg transition-shadow">
             `;
-            
-            // Let the card height be determined by its content
-            // No fixed height to ensure text is fully visible
             
             productCardGroup.appendChild(cardDiv);
         });
@@ -190,15 +183,17 @@
      */
     function setupEventListeners() {
         // Product card clicks
-        document.querySelectorAll('#product-card-group .card-option').forEach(card => {
+        document.querySelectorAll('#product-card-group > div').forEach(card => {
             card.addEventListener('click', async function() {
                 // Remove selected class from all cards in the group
-                document.querySelectorAll('#product-card-group .card-option').forEach(c => {
+                document.querySelectorAll('#product-card-group > div').forEach(c => {
                     c.classList.remove('selected');
+                    c.querySelector('img').classList.remove('ring-4', 'ring-aia-red');
                 });
                 
                 // Add selected class to clicked card
                 this.classList.add('selected');
+                this.querySelector('img').classList.add('ring-4', 'ring-aia-red');
                 
                 // Select the actual radio input
                 const radioInput = this.querySelector('input[type="radio"]');
@@ -209,8 +204,8 @@
                 // Load product content
                 const content = await PromptGenerator.setProduct(productId);
                 
-                // Get the product name from the card
-                const productName = this.querySelector('.card-title').textContent;
+                // Get the product name from alt text
+                const productName = this.querySelector('img').alt;
                 
                 // Update the product selection display
                 document.querySelector('#product-selection .font-medium').textContent = productName;

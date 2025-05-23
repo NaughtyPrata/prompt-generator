@@ -21,7 +21,9 @@ const UIController = (function() {
         
         // Step 1
         productCardGroup: document.getElementById('product-card-group'),
-        next1Button: document.getElementById('next-1'),
+        productNext: document.getElementById('product-next'),
+        productNav: document.getElementById('product-nav'),
+        otherNav: document.getElementById('other-nav'),
         
         // Step 2
         personaCardGroup: document.getElementById('persona-card-group'),
@@ -72,7 +74,7 @@ const UIController = (function() {
         elements.themeToggle.addEventListener('click', toggleTheme);
         
         // Step navigation
-        elements.next1Button.addEventListener('click', () => goToStep(2));
+        elements.productNext.addEventListener('click', () => goToStep(2));
         elements.prev2Button.addEventListener('click', () => goToStep(1));
         elements.next2Button.addEventListener('click', () => goToStep(3));
         elements.prev3Button.addEventListener('click', () => goToStep(2));
@@ -160,7 +162,11 @@ const UIController = (function() {
      * @param {number} step - The current step number
      */
     function updateNavigationButtons(step) {
-        // Hide all navigation buttons first
+        // Hide all navigation button sets first
+        elements.productNav.classList.add('hidden');
+        elements.otherNav.classList.add('hidden');
+        
+        // Hide all individual buttons
         elements.prevButtons.forEach(btn => {
             btn.classList.remove('active');
             btn.classList.add('hidden');
@@ -170,34 +176,40 @@ const UIController = (function() {
             btn.classList.add('hidden');
         });
         
-        // Show the appropriate buttons based on the current step
+        // Show the appropriate button set based on the current step
         if (step === 1) {
-            // Step 1 only shows Next button
-            document.getElementById('next-1').classList.add('active');
-            document.getElementById('next-1').classList.remove('hidden');
-        } else if (step === 2) {
-            // Step 2 shows both Previous and Next
-            document.getElementById('prev-2').classList.add('active');
-            document.getElementById('prev-2').classList.remove('hidden');
-            document.getElementById('next-2').classList.add('active');
-            document.getElementById('next-2').classList.remove('hidden');
-        } else if (step === 3) {
-            // Step 3 shows both Previous and Next
-            document.getElementById('prev-3').classList.add('active');
-            document.getElementById('prev-3').classList.remove('hidden');
-            document.getElementById('next-3').classList.add('active');
-            document.getElementById('next-3').classList.remove('hidden');
-        } else if (step === 4) {
-            // Step 4 shows Previous and Generate
-            document.getElementById('prev-4').classList.add('active');
-            document.getElementById('prev-4').classList.remove('hidden');
-            document.getElementById('generate-btn').classList.add('active');
-            document.getElementById('generate-btn').classList.remove('hidden');
+            // Step 1 shows only the product navigation set
+            elements.productNav.classList.remove('hidden');
+            elements.productNext.classList.add('active');
+            elements.productNext.classList.remove('hidden');
+        } else {
+            // Steps 2-4 show the other navigation set
+            elements.otherNav.classList.remove('hidden');
+            
+            if (step === 2) {
+                // Step 2 shows both Previous and Next
+                document.getElementById('prev-2').classList.add('active');
+                document.getElementById('prev-2').classList.remove('hidden');
+                document.getElementById('next-2').classList.add('active');
+                document.getElementById('next-2').classList.remove('hidden');
+            } else if (step === 3) {
+                // Step 3 shows both Previous and Next
+                document.getElementById('prev-3').classList.add('active');
+                document.getElementById('prev-3').classList.remove('hidden');
+                document.getElementById('next-3').classList.add('active');
+                document.getElementById('next-3').classList.remove('hidden');
+            } else if (step === 4) {
+                // Step 4 shows Previous and Generate
+                document.getElementById('prev-4').classList.add('active');
+                document.getElementById('prev-4').classList.remove('hidden');
+                document.getElementById('generate-btn').classList.add('active');
+                document.getElementById('generate-btn').classList.remove('hidden');
+            }
         }
         
-        // Enable the Next button when a selection is made
+        // Enable the Product Next button when a selection is made
         if (step === 1 && document.querySelector('#product-card-group .card-option.selected') !== null) {
-            elements.next1Button.disabled = false;
+            elements.productNext.disabled = false;
         }
     }
 

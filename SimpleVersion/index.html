@@ -342,7 +342,15 @@
     <!-- Navigation Buttons (centered) -->
     <div class="fixed z-40 left-0 right-0" style="bottom: 100px;">
         <div class="max-w-screen-xl mx-auto flex justify-center space-x-4 px-4">
-            <div class="flex rounded-lg overflow-hidden shadow-sm border border-gray-200">
+            <!-- Product Page Button Set (Step 1 only) -->
+            <div id="product-nav" class="flex rounded-lg overflow-hidden shadow-sm border border-gray-200">
+                <button id="product-next" class="next-btn active bg-aia-red text-white px-4 py-3 hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span>Continue to Select Persona</span> <i class="lni lni-arrow-right ml-2"></i>
+                </button>
+            </div>
+            
+            <!-- Other Pages Button Set (Steps 2-4) -->
+            <div id="other-nav" class="flex rounded-lg overflow-hidden shadow-sm border border-gray-200 hidden">
                 <!-- Previous buttons -->
                 <button id="prev-2" class="prev-btn bg-white text-aia-gray px-8 py-3 hover:bg-gray-100 transition-colors hidden border-r border-gray-200">
                     <i class="lni lni-arrow-left mr-2"></i> Previous
@@ -355,8 +363,8 @@
                 </button>
                 
                 <!-- Next buttons -->
-                <button id="next-1" class="next-btn active bg-aia-red text-white px-16 py-3 hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                    Next <i class="lni lni-arrow-right ml-2"></i>
+                <button id="next-1" class="next-btn active bg-aia-red text-white px-4 py-3 hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span>Next</span> <i class="lni lni-arrow-right ml-2"></i>
                 </button>
                 <button id="next-2" class="next-btn bg-aia-red text-white px-16 py-3 hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed hidden" disabled>
                     Next <i class="lni lni-arrow-right ml-2"></i>
